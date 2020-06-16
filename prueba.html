@@ -1,0 +1,167 @@
+<div class="card mx-auto mt-5" style="width: max-content; background-color: rgba(255, 255, 255, 0.75);">
+    <div class="card-header bg-primary">
+        <div class="row">
+            <h4 class="my-auto mx-auto" style="color: white"><i class="fas fa-edit"></i> Datos de su reserva</h4>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <table class="table mb-0 bg-white">
+                <thead class="thead-light">
+                <tr class="text-center">
+                    <th></th>
+                    <th>Origen</th>
+                    <th>Destino</th>
+                    <th>Fecha</th>
+                    <th>Pasajeros</th>
+                    <th ng-if="(precioIDA > 0) && (ida == true)" ng-model="Presupuesto">Precio/Persona</th>
+                    <th ng-if="(precioIDA > 0) && (ida == true)" ng-model="Presupuesto">Precio</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>Viaje de ida</th>
+                        <td>{{ origen | uppercase}}</td>
+                        <td>{{ destino |uppercase  }}</td>
+                        <td>{{ fcheckIn}}</td>
+                        <td class="text-center">{{ nBilletes}}</td>
+                        <td class="text-center" ng-if="(precioIDA > 0) && (ida == true)" ng-model="Presupuesto">{{precioIDA}}€</td>
+                        <td class="text-center" ng-if="(precioIDA > 0) && (ida == true)" ng-model="Presupuesto">{{precioIDA * nBilletes}}€</td>
+                    </tr>
+                    <tr ng-show="fcheckOut">
+                        <th> Viaje de vuelta</th>
+                        <td>{{ destino | uppercase }}</td>
+                        <td>{{ origen | uppercase }}</td>
+                        <td>{{ fcheckOut }}</td>
+                        <td class="text-center">{{ nBilletes }}</td>
+                        <td class="text-center" ng-if="(precioIDA > 0) && (ida == true)" ng-model="Presupuesto"><span ng-if="(precioVUELTA > 0) && (vuelta == true)" ng-model="Presupuesto">{{precioVUELTA}}€</span></td>
+                        <td class="text-center" ng-if="(precioIDA > 0) && (ida == true)" ng-model="Presupuesto"><span ng-if="(precioVUELTA > 0) && (vuelta == true)" ng-model="Presupuesto">{{precioVUELTA * nBilletes}}€</span></td>
+                    </tr>
+                    <tr ng-if="(precioIDA > 0) && (precioVUELTA > 0) && (vuelta == true)">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <th class="text-right">Total:</th>
+                        <th class="text-center">{{ precioIDA * nBilletes  + precioVUELTA * nBilletes}}€</th>
+                    </tr>
+                    <tr ng-if="(precioIDA > 0) && (vuelta == false)" ng-hide="fcheckOut">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <th class="text-right">Total:</th>
+                        <th class="text-center">{{ precioIDA * nBilletes }}€</th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="row form-inline d-flex justify-content-center mt-3">
+            <label class="mr-1">¿Desea cambiar el número de pasajeros?</label>
+            <input class="form-control" style="width: 20%;" type="number" name="n_billetes" min="1" placeholder="{{nBilletes}}" ng-model="nBilletes">
+        </div>
+    </div>
+    <div class="card-footer">
+        <button class="btn btn-danger float-right" type="button" ng-click="limpiar()"><a style="color: white; text-decoration: none;" href="index.html"><i class="fas fa-undo"></i> Volver</a></button>
+        
+           <button ng-if="(precioIDA > 0) && (precioVUELTA > 0) && (vuelta == true)" class="btn btn-success float-right mr-3" ng-click="limpiar()" type="button" >
+            <a style="color: white; text-decoration: none;" href="index.html">
+            <i class="far fa-calendar-check"></i> Reservar</a>
+        </button>
+        
+        <button ng-if="(precioIDA > 0) && (vuelta == false)" ng-hide="fcheckOut" class="btn btn-success float-right mr-3" type="button" ng-click="limpiar()"><a style="color: white; text-decoration: none;" href="index.html"><i class="far fa-calendar-check"></i> Reservar</a></button>
+    </div>
+</div>
+<div ng-switch on="((data | filter:origen).length) && ((data | filter:destino).length) && ((data | filter:fcheckIn).length) && ((data | filter:fcheckOut).length)">
+    <div class="alert alert-danger ng-empty mx-auto text-center mt-3" style="width: 70%" role="alert" ng-switch-when="0">
+        Ups, parece que no hay vuelos programados para las fechas seleccionadas.
+    </div>
+    <div ng-switch-default>
+        <div data-ng-repeat="item in existenBilletes = (data | filter: {'origen' : origen} | filter: {'destino' : destino} | filter: {'salida' : fcheckIn}) ">
+        </div>
+        <div class="alert alert-danger mx-auto text-center mt-3" style="width: 70%" role="alert" ng-if="existenBilletes.length == 0">
+            Ups, parece que no hay vuelos con origen {{origen | utf8_decode}} y destino {{destino | utf8_decode}} para las fechas seleccionadas.
+        </div>
+        <div class="card mt-5 mb-5 mx-auto" style="width: max-content; background-color: rgba(255, 255, 255, 0.75);" ng-if="existenBilletes.length > 0">
+            <div class="card-body">
+                <table class="table table-striped bg-white" ng-model="tabla1" >
+                    <tr>
+                        <th ng-click="setOrderIDA('vuelo')"> Vuelo de ida</th>
+                        <th ng-click="setOrderIDA('origen')"> Origen</th>
+                        <th ng-click="setOrderIDA('destino')"> Destino </th>
+                        <th ng-click="setOrderIDA('salida')"> Salida</th>
+                        <th ng-click="setOrderIDA('llegada')"> Llegada</th>
+                        <th ng-click="setOrderIDA('bussiness')"> Bussiness</th>
+                        <th ng-click="setOrderIDA('optima')"> Optima </th>
+                        <th ng-click="setOrderIDA('economy')"> Economy </th>
+                    </tr>
+                    <tr ng-repeat="item in data | filter: {'origen' : origen} | filter: {'destino' : destino} | filter: {'salida' : fcheckIn} | orderBy:selectedOrderIDA:reverse">
+                        <td> {{ item.vuelo | utf8_decode }}</td>
+                        <td> {{ item.origen | utf8_decode }}</td>
+                        <td> {{ item.destino | utf8_decode }} </td>
+                        <td class="text-center"> {{ item.salida | date: "HH:mm" }} </td>
+                        <td class="text-center"> {{ item.llegada  | date: "HH:mm"   }} </td>
+                        <td class="text-center"> {{ item.bussiness }}</td>
+                        <td class="text-center"> {{ item.optima }} </td>
+                        <td class="text-center"> {{ item.economy }} </td>
+                        <td><input class="form-check-input" type="checkbox" ng-click="seleccionIDA(item.vuelo)" ng-init="!disabled" ng-disabled="(deshabilitarIDA() != item.vuelo && estadoDeshabilitarIDA)" ng-model="BuscarIDA">
+                        </td>
+                        <td style="padding-top: 5px; padding-bottom: 0px;" ng-if="BuscarIDA">
+                            <div ng-if="BuscarIDA">
+                                <select class="form-control" ng-model="PrecioIDA" ng-init="null" ng-change="EstablecerPrecioIDA(PrecioIDA)">
+                                    <option value={{item.bussiness}}>Bussiness</option>
+                                    <option value="{{item.optima}}">Optima</option>
+                                    <option value="{{item.economy}}">Economy</option>
+                                    <option value="{{}}" selected disabled hidden>Introduce la clase</option>
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="card mt-5 mb-5 mx-auto" style="width: max-content; background-color: rgba(255, 255, 255, 0.75);" ng-show="fcheckOut">
+            <div class="card-body">
+                <table class="table table-striped bg-white">
+                    <th ng-click="setOrderVUELTA('vuelo')"> Vuelo de vuelta</th>
+                    <th ng-click="setOrderVUELTA('origen')"> Origen</th>
+                    <th ng-click="setOrderVUELTA('destino')"> Destino </th>
+                    <th ng-click="setOrderVUELTA('salida')"> Salida</th>
+                    <th ng-click="setOrderVUELTA('llegada')"> Llegada</th>
+                    <th ng-click="setOrderVUELTA('bussiness')"> Bussiness </th>
+                    <th ng-click="setOrderVUELTA('optima')"> Optima </th>
+                    <th ng-click="setOrderVUELTA('economy')"> Economy </th>
+                    <tr ng-repeat="item in data | filter: {'origen' : destino} | filter: {'destino' : origen} |  filter: {'llegada' : fcheckOut} | orderBy:selectedOrderVUELTA:reverse">
+                        <td> {{ item.vuelo | utf8_decode }}</td>
+                        <td> {{ item.origen | utf8_decode}}</td>
+                        <td> {{ item.destino }} </td>
+                        <td class="text-center"> {{ item.salida | date: "HH:mm"  }} </td>
+                        <td class="text-center"> {{ item.llegada  | date: "HH:mm"   }} </td>
+                        <td class="text-center"> {{ item.bussiness }}</td>
+                        <td class="text-center"> {{ item.optima }} </td>
+                        <td class="text-center"> {{ item.economy }} </td>
+                        <td><input type="checkbox" ng-click="seleccionVUELTA(item.vuelo)" ng-disabled="deshabilitarVUELTA() != item.vuelo && estadoDeshabilitarVUELTA" ng-model="BuscarVUELTA">
+                        </td>
+                        <td style="padding-top: 5px; padding-bottom: 0px;" ng-if="BuscarVUELTA">
+                            <div ng-if="BuscarVUELTA">
+                                <select class="form-control" ng-model="PrecioVUELTA" ng-init="null" ng-change="EstablecerPrecioVUELTA(PrecioVUELTA)">
+                                    <option value="{{item.bussiness}}">Bussiness</option>
+                                    <option value="{{item.optima}}">Optima</option>
+                                    <option value="{{item.economy}}">Economy</option>
+                                    <option value="{{}}" selected disabled hidden>Introduce la clase</option>
+
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
