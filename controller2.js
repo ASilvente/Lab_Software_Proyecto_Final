@@ -8,6 +8,9 @@ angular.module("trabajo", ['ngRoute'])
 
         var contadorVUELTA = 0;
         $scope.elementoVUELTA = {};
+        $scope.nombre = null;
+        $scope.apellidos = null;
+
         $scope.deshabilitarVUELTA = false;
 
         $scope.init = function () {
@@ -22,11 +25,28 @@ angular.module("trabajo", ['ngRoute'])
             $scope.ida = false;
             $scope.showVuelta = true;
         };
-        $http.get("vuelos.json").then(function (response) {
+        $http.get("fetch_data.php").then(function (response) {
 
-            $scope.data = (response.data.vuelos);
-
+            // para vuelos.json $scope.data = (response.data.vuelos);
+            $scope.data = response.data; //para php
+            //console.log(response.data);
         });
+        $scope.submitForm = function () {
+            $http.post(
+                    "subir.php", {
+                        'nombre': $scope.nombre,
+                        'apellidos': $scope.apellidos,
+                    }
+                )
+                .then(function (respuesta) {
+
+                    console.log(respuesta);
+                    $scope.nombre = null;
+                    $scope.apellidos = null;
+                    window.location = ('index.html');
+                });
+        }
+        
         /*  Seleccionar orden de la tabla */
         $scope.setOrderIDA = function (x) {
             $scope.selectedOrderIDA = x;
@@ -145,21 +165,19 @@ angular.module("trabajo", ['ngRoute'])
             while (i < strData.length) {
                 c1 = strData.charCodeAt(i) & 0xFF;
                 seqlen = 0;
-
-                
                 if (c1 > 250 && anterior != 73 && anterior != 79 && anterior != 85) {
                     c1 = 0x6E;
                     seqlen = 1;
 
-                } else if ((c1 > 250 && anterior == 73)) {
+                } else if ((c1 == 63 && anterior == 73)) {
                     c1 = 0xC1;
                     seqlen = 1;
 
-                } else if ((c1 > 250 && anterior == 79)) {
+                } else if ((c1 == 63 && anterior == 79)) {
                     c1 = 0xD1;
                     seqlen = 1;
 
-                } else if ((c1 > 250 && anterior == 85)) {
+                } else if ((c1 == 63 && anterior == 85)) {
                     c1 = 0xD1;
                     seqlen = 1;
 
