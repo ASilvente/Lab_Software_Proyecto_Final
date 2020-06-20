@@ -24,8 +24,9 @@ angular.module("trabajo", ['ngRoute'])
             $scope.vuelta = false;
             $scope.ida = false;
             $scope.showVuelta = true;
+            $scope.showCliente = true;
         };
-        $http.get("fetch_data.php").then(function (response) {
+        $http.get("php/fetch_data.php").then(function (response) {
 
             // para vuelos.json $scope.data = (response.data.vuelos);
             $scope.data = response.data; //para php
@@ -33,7 +34,7 @@ angular.module("trabajo", ['ngRoute'])
         });
         $scope.submitForm = function () {
             $http.post(
-                    "subir.php", {
+                    "php/subir.php", {
                         'nombre': $scope.nombre,
                         'apellidos': $scope.apellidos,
                     }
@@ -122,17 +123,7 @@ angular.module("trabajo", ['ngRoute'])
             if ($scope.elementoVUELTA.length != undefined) {
                 $scope.seleccionVUELTA($scope.elementoVUELTA);
             }
-
         };
-
-
-
-
-
-
-
-
-
         $scope.init();
     })
     /*  Filtra los nombres de Origen y Destino de tal manera que no se envien duplicados */

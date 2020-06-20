@@ -1,6 +1,6 @@
 <?php
 try {
-    $connect = new PDO("mysql:host=localhost;dbname=laboratorio", "root", "");
+    $connect = new PDO("mysql:host=localhost;dbname=lab_software", "root", "");
     $connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
     echo 'Connected to Database';
