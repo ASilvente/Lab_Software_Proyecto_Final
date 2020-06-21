@@ -60,7 +60,7 @@
         </div>
         <div class="row form-inline d-flex justify-content-center mt-3">
             <label class="mr-1">¿Desea cambiar el número de pasajeros?</label>
-            <input class="form-control" style="width: 20%;" type="number" name="n_billetes" min="1" placeholder="{{nBilletes}}" ng-model="nBilletes">
+            <input class="form-control" style="width: 20%;" type="number" name="n_billetes" min="1" placeholder="{{nBilletes}}" ng-model="nBilletes" value="{{nBilletes}}">
         </div>
     </div>
     <div class="card-footer">
@@ -108,14 +108,17 @@
                         <td class="text-center"> {{ item.precio_economy }} </td>
                         <td><input class="form-check-input" type="checkbox" ng-click="seleccionIDA(item.vuelo)" ng-disabled="(deshabilitarIDA() != item.vuelo && estadoDeshabilitarIDA)" ng-model="BuscarIDA">
                         </td>
-                        <td style="padding-top: 5px; padding-bottom: 0px;" ng-if="BuscarIDA">
-                            <div ng-if="BuscarIDA">
-                                <select class="form-control" ng-model="PrecioIDA" ng-init="null" ng-change="EstablecerPrecioIDA(PrecioIDA)">
+                        <td style="padding-top: 5px; padding-bottom: 0px;" ng-if="BuscarIDA" >
+                            <div ng-if="((nBilletes<=item.plazas_business) || (nBilletes<=item.plazas_optima) ||(nBilletes<=item.plazas_economy))">
+                                <select class="form-control" ng-model="PrecioIDA"  ng-change="EstablecerPrecioIDA(PrecioIDA)" ng-if="nBilletes<100" >
                                     <option value="{{ item.precio_business }}" ng-if="item.plazas_business >= nBilletes">Bussiness ({{item.plazas_business}})</option>
                                     <option value="{{item.precio_optima}}" ng-if="item.plazas_optima >= nBilletes">Optima ({{item.plazas_optima}})</option>
                                     <option value="{{item.precio_economy}}" ng-if="item.plazas_economy >= nBilletes">Economy ({{item.plazas_economy}})</option>
                                     <option value="{{}}" selected disabled hidden>Introduce la clase</option>
                                 </select>
+                            </div>
+                            <div ng-if="((nBilletes>item.plazas_business) && (nBilletes>item.plazas_optima) && (nBilletes>item.plazas_economy)) || nBilletes>=100">
+                                <input type="text" disabled="disabled" placeholder="No hay plazas" style="text-align: center"  ng-model="EstablecerPrecioIDA(0)"/>
                             </div>
                         </td>
                     </tr>
@@ -145,14 +148,17 @@
                         <td><input type="checkbox" ng-click="seleccionVUELTA(item.vuelo)" ng-disabled="deshabilitarVUELTA() != item.vuelo && estadoDeshabilitarVUELTA" ng-model="BuscarVUELTA">
                         </td>
                         <td style="padding-top: 5px; padding-bottom: 0px;" ng-if="BuscarVUELTA">
-                            <div ng-if="BuscarVUELTA">
-                                <select class="form-control" ng-model="PrecioVUELTA" ng-init="null" ng-change="EstablecerPrecioVUELTA(PrecioVUELTA)">
-                                    <option value="{{item.precio_business}}" ng-if="item.plazas_business >= nBilletes">Bussiness</option>
-                                    <option value="{{item.precio_optima}}" ng-if="item.plazas_optima >= nBilletes">Optima</option>
-                                    <option value="{{item.precio_economy}}" ng-if="item.plazas_economy >= nBilletes">Economy</option>
+                            <div ng-if="((nBilletes<=item.plazas_business) || (nBilletes<=item.plazas_optima) ||(nBilletes<=item.plazas_economy))">
+                                <select class="form-control" ng-model="PrecioVUELTA" ng-change="EstablecerPrecioVUELTA(PrecioVUELTA)" ng-if="nBilletes<100" >
+                                    <option value="{{item.precio_business}}" ng-if="item.plazas_business >= nBilletes">Bussiness ({{item.plazas_business}})</option>
+                                    <option value="{{item.precio_optima}}" ng-if="item.plazas_optima >= nBilletes">Optima ({{item.plazas_optima}})</option>
+                                    <option value="{{item.precio_economy}}" ng-if="item.plazas_economy >= nBilletes">Economy ({{item.plazas_economy}})</option>
                                     <option value="{{}}" selected disabled hidden>Introduce la clase</option>
 
                                 </select>
+                            </div>
+                            <div ng-if="((nBilletes>item.plazas_business) && (nBilletes>item.plazas_optima) && (nBilletes>item.plazas_economy)) || nBilletes>=100">
+                                <input type="text" disabled="disabled" placeholder="No hay plazas" style="text-align: center"  ng-model="EstablecerPrecioVUELTA(0)"/>
                             </div>
                         </td>
                     </tr>

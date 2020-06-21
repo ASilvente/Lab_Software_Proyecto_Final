@@ -54,7 +54,7 @@
                             </div>
                             <div class="col-md-6 form-group">
                                 <label for="" class=""><i class="fas fa-users"></i> Número de pasajeros: </label>
-                                <input class="form-control" type="number" name="n_billetes" min="0" ng-click="" ng-model="ng_billetes">
+                                <input class="form-control" type="number" name="n_billetes" min="0" ng-model="ng_billetes" placeholder="0">
                             </div>
                         </div>
                         <div ng-if="((searchDestiny != undefined) && (searchOrigin != undefined) && (ng_billetes > 0)) && (( showVuelta == false) && (fechaCheckIn != undefined) || (( showVuelta == true) && ((fechaCheckIn != undefined) && (fechaCheckOut != undefined))))">
