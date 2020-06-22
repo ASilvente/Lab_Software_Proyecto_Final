@@ -10,7 +10,6 @@ angular.module("trabajo", ['ngRoute'])
         $scope.elementoVUELTA = {};
         $scope.nombre = null;
         $scope.apellidos = null;
-
         $scope.deshabilitarVUELTA = false;
 
         $scope.init = function () {
@@ -24,6 +23,7 @@ angular.module("trabajo", ['ngRoute'])
             $scope.vuelta = false;
             $scope.ida = false;
             $scope.showVuelta = true;
+
         };
         $http.get("fetch_data.php").then(function (response) {
 
@@ -46,7 +46,7 @@ angular.module("trabajo", ['ngRoute'])
                     window.location = ('index.html');
                 });
         }
-        
+
         /*  Seleccionar orden de la tabla */
         $scope.setOrderIDA = function (x) {
             $scope.selectedOrderIDA = x;
@@ -76,8 +76,11 @@ angular.module("trabajo", ['ngRoute'])
                 $scope.precioIDA = 0;
             }
         };
-
-
+    
+        $scope.billetera = function (value){
+            
+            return parseInt(value);
+        }
         $scope.seleccionVUELTA = function (posicion) {
             contadorVUELTA++;
             if (contadorVUELTA % 2 != 0) {
