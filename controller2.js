@@ -10,6 +10,7 @@ angular.module("trabajo", ['ngRoute'])
         $scope.elementoVUELTA = {};
         $scope.nombre = null;
         $scope.apellidos = null;
+        $scope.dni = null;
 
         $scope.deshabilitarVUELTA = false;
 
@@ -36,6 +37,7 @@ angular.module("trabajo", ['ngRoute'])
                     "subir.php", {
                         'nombre': $scope.nombre,
                         'apellidos': $scope.apellidos,
+                        'dni' : $scope.dni,
                     }
                 )
                 .then(function (respuesta) {
@@ -43,6 +45,7 @@ angular.module("trabajo", ['ngRoute'])
                     console.log(respuesta);
                     $scope.nombre = null;
                     $scope.apellidos = null;
+                    $scope.dni = null;
                     window.location = ('index.html');
                 });
         }

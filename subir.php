@@ -1,6 +1,6 @@
 <?php
 try {
-    $connect = new PDO("mysql:host=localhost;dbname=laboratorio", "root", "");
+    $connect = new PDO("mysql:host=localhost;dbname=lab_software", "root", "");
     $connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
     echo 'Connected to Database';
@@ -26,7 +26,8 @@ $data = json_decode(file_get_contents("php://input"));
 
 $nombre = $data->nombre;
 $apellidos = $data->apellidos;
+$dni = $data->dni;
 
-$connect->query("INSERT INTO `pasajeros` (`cod_reserva`,`nombre`, `apellidos`) VALUES ('".$numero."','".$nombre."','".$apellidos."')") or die(mysql_error());
+$connect->query("INSERT INTO `pasajeros` (`cod_reserva`, `numero`, `nombre`, `apellidos`) VALUES ('".$numero."','".$dni."','".$nombre."','".$apellidos."')") or die(mysql_error());
 $connect = null;
 ?>

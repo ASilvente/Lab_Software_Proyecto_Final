@@ -66,12 +66,13 @@
     <div class="card-footer">
         <button class="btn btn-danger float-right" type="button" ng-click="limpiar()"><a style="color: white; text-decoration: none;" href="index.html"><i class="fas fa-undo"></i> Volver</a></button>
 
-        <button ng-if="(precioIDA > 0) && (precioVUELTA > 0) && (vuelta == true)" class="btn btn-success float-right mr-3" ng-click="limpiar()" type="button">
-            <a style="color: white; text-decoration: none;" href="nombre.html">
+        <button ng-if="(precioIDA > 0) && (precioVUELTA > 0) && (vuelta == true)" class="btn btn-success float-right mr-3" type="button" ng-click="limpiar()" data-toggle="modal" data-target="#modalRegistroPasajeros">
                 <i class="far fa-calendar-check"></i> Reservar</a>
         </button>
 
-        <button ng-if="(precioIDA > 0) && (vuelta == false)" ng-hide="fcheckOut" class="btn btn-success float-right mr-3" type="button" ng-click="limpiar()"><a style="color: white; text-decoration: none;" href="nombre.html"><i class="far fa-calendar-check"></i> Reservar</a></button>
+        <button ng-if="(precioIDA > 0) && (vuelta == false)" ng-hide="fcheckOut" class="btn btn-success float-right mr-3" type="button" ng-click="limpiar()" data-toggle="modal" data-target="#modalRegistroPasajeros">
+            <i class="far fa-calendar-check"></i> Reservar</a>
+        </button>
     </div>
 </div>
 <div ng-switch on="((data | filter:origen).length) && ((data | filter:destino).length) && ((data | filter:fcheckIn).length) && ((data | filter:fcheckOut).length)">
@@ -103,9 +104,9 @@
                         <td> {{ item.destino | utf8_decode }} </td>
                         <td class="text-center"> {{ item.salida | date: "HH:mm" }} </td>
                         <td class="text-center"> {{ item.llegada  | date: "HH:mm"   }} </td>
-                        <td class="text-center"> {{ item.precio_business }}</td>
-                        <td class="text-center"> {{ item.precio_optima }} </td>
-                        <td class="text-center"> {{ item.precio_economy }} </td>
+                        <td class="text-center"> {{ item.precio_business }}€</td>
+                        <td class="text-center"> {{ item.precio_optima }}€ </td>
+                        <td class="text-center"> {{ item.precio_economy }}€ </td>
                         <td><input class="form-check-input" type="checkbox" ng-click="seleccionIDA(item.vuelo)" ng-disabled="(deshabilitarIDA() != item.vuelo && estadoDeshabilitarIDA)" ng-model="BuscarIDA">
                         </td>
                         <td style="padding-top: 5px; padding-bottom: 0px;" ng-if="BuscarIDA">
@@ -139,9 +140,9 @@
                         <td> {{ item.destino | utf8_decode }} </td>
                         <td class="text-center"> {{ item.salida | date: "HH:mm"  }} </td>
                         <td class="text-center"> {{ item.llegada  | date: "HH:mm"   }} </td>
-                        <td class="text-center"> {{ item.precio_business}}</td>
-                        <td class="text-center"> {{ item.precio_optima }} </td>
-                        <td class="text-center"> {{ item.precio_economy }} </td>
+                        <td class="text-center"> {{ item.precio_business}}€</td>
+                        <td class="text-center"> {{ item.precio_optima }}€ </td>
+                        <td class="text-center"> {{ item.precio_economy }}€ </td>
                         <td><input type="checkbox" ng-click="seleccionVUELTA(item.vuelo)" ng-disabled="deshabilitarVUELTA() != item.vuelo && estadoDeshabilitarVUELTA" ng-model="BuscarVUELTA">
                         </td>
                         <td style="padding-top: 5px; padding-bottom: 0px;" ng-if="BuscarVUELTA">
@@ -158,6 +159,48 @@
                     </tr>
                 </table>
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL REGISTRAR PASAJEROS -->
+<div class="modal fade" id="modalRegistroPasajeros" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" style="color: dodgerblue"><i class="fas fa-user-edit"></i> Pasajeros</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form ng-controller="ctrol" name="userForm" ng-submit="submitForm()" ng-href="main.html">
+            <div class="modal-body">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Apellidos</th>
+                            <th scope="col">DNI (sin letra)</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!--<tr ng-repeat="x in [].constructor(number) track by $index">
+                            <td scope="col">{{$index+1}}</td>-->
+                        <tr>
+                            <td scope="col"></td>
+                            <td scope="col"><input type="text" class="form-control" required ng-model="nombre"></td>
+                            <td scope="col"><input type="text" class="form-control" required ng-model="apellidos"></td>
+                            <td scope="col"><input type="number" class="form-control" required ng-model="dni" style="-moz-appearance: textfield;"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-success"><i class="fas fa-user-plus"></i> Registrar pasajeros</button>
+            </div>
+            </form>
         </div>
     </div>
 </div>
