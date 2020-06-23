@@ -2,7 +2,7 @@
 
 //database_connection.php
 
-$connect = new PDO("mysql:host=localhost;dbname=laboratorio", "root", "");
+$connect = new PDO("mysql:host=localhost;dbname=lab_software", "root", "");
 
 
 
