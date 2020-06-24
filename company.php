@@ -4,18 +4,36 @@
 <head>
     <meta charset="UTF-8">
 
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
-    <link href="css/all.css" rel="stylesheet">
-    <link href="css/custom.css" rel="stylesheet">
-    <link data-require="bootstrap-css@*" data-semver="3.3.1" rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" />
-    <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap.no-icons.min.css" rel="stylesheet">
-    <link href="http://netdna.bootstrapcdn.com/font-awesome/2.0/css/font-awesome.css" rel="stylesheet">
+
+
+
+
+<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+<link href="css/all.css" rel="stylesheet">
+<link href="css/custom.css" rel="stylesheet">
+
     <title>Vuelos</title>
 </head>
 
 <body ng-controller="ctrol" style="background-image: url('images/plane.jpg');  background-size: cover;">
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="js/bootstrap.bundle.js"></script>
+<script src="js/all.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular-route.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
+<script src="controller2.js"></script>
+<script src="js/anime.js"></script>
 
-    <div style="display:flex;align-items: center;justify-content: center;">
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top" style="margin-bottom:30px;">
+        <a class="navbar-brand" href="#">Logo</a>
+        <ul class="navbar-nav ml-auto">            
+            <?php
+                include 'php/header.php';
+            ?>                        
+        </ul>
+    </nav>
+    <div style="display:flex;align-items: center;justify-content: center; padding-top:100px;">
         <button ng-click="showNew=1">Introducir nuevos vuelos</button>
         <button ng-click="showNew=2">Consultar vuelos</button>
         <button ng-click="showNew=3">Actualizar vuelos</button>
