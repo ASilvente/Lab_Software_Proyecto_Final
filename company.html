@@ -15,8 +15,9 @@
 <body ng-controller="ctrol" style="background-image: url('images/plane.jpg');  background-size: cover;">
 
     <div style="flex;align-items: center;justify-content: center;">
-        <button ng-click="showNew=true">Introducir nuevos vuelos</button>
-        <button ng-click="showNew=false">Consultar vuelos</button>
+        <button ng-click="showNew=1">Introducir nuevos vuelos</button>
+        <button ng-click="showNew=2">Consultar vuelos</button>
+        <button ng-click="showNew=3">Actualizar vuelos</button>
     </div>
     <div ng-show="showNew==undefined" style="text-align: center;margin: auto;">
 
@@ -24,7 +25,7 @@
         gracias por su tiempo
 
     </div>
-    <div ng-show="showNew==true">
+    <div ng-show="showNew==1">
         <div class="container" style="height: 40vh">
             <div class="row h-100">
                 <div class="col-sm-12 my-auto mx-auto">
@@ -86,15 +87,15 @@
                                 <div class="row">
                                     <div class="col-md-4 form-group">
                                         <label for="" class=""><i class="fas fa-euro-sign"></i> Precio Business: </label>
-                                        <input class="form-control" type="number" min="0" placeholder="0" ng-model="precio_business">
+                                        <input class="form-control" type="number" min="0" placeholder="0" max="20" ng-model="precio_business">
                                     </div>
                                     <div class="col-md-4 form-group">
                                         <label for="" class=""><i class="fas fa-euro-sign"></i> Precio Economy: </label>
-                                        <input class="form-control" type="number" min="0" placeholder="0" ng-model="precio_economy">
+                                        <input class="form-control" type="number" min="0" placeholder="0" max="60" ng-model="precio_economy">
                                     </div>
                                     <div class="col-md-4 form-group">
                                         <label for="" class=""><i class="fas fa-euro-sign"></i> Precio Optima: </label>
-                                        <input class="form-control" type="number" min="0" placeholder="0" ng-model="precio_optima">
+                                        <input class="form-control" type="number" min="0" placeholder="0" max="80" ng-model="precio_optima">
                                     </div>
                                 </div>
                                 <div ng-if="((plazas_business > 0) && (plazas_economy > 0) && (plazas_optima > 0) && (fechaCheckIn != undefined) && (fechaCheckOut != undefined) && (searchOrigin !=undefined) && (searchDestiny != undefined) && (searchOrigin !== searchDestiny) )">
@@ -109,10 +110,77 @@
 
 
     </div>
-    <div ng-show="showNew==false">
+    <div ng-show="showNew==2">
         <h1 class="ml6 text-center">
             <span class="text-wrapper">
                 <span class="letters" style="color: white">Airlines</span>
+            </span>
+        </h1>
+        <div class="card mt-5 mb-5 mx-auto" style="width: max-content; background-color: rgba(255, 255, 255, 0.75);">
+            <div class="card-body">
+                <table class="table table-striped table-condensed table-hover">
+                    <thead>
+                        <tr>
+                            <th ng-click="setOrderIDA('vuelo')"> Vuelo de ida</th>
+                            <th ng-click="setOrderIDA('origen')"> Origen</th>
+                            <th ng-click="setOrderIDA('destino')"> Destino </th>
+                            <th ng-click="setOrderIDA('salida')"> Salida</th>
+                            <th ng-click="setOrderIDA('llegada')"> Llegada</th>
+                            <th ng-click="setOrderIDA('precio_business')"> Bussiness</th>
+                            <th ng-click="setOrderIDA('precio_optima')"> Optima </th>
+                            <th ng-click="setOrderIDA('precio_economy')"> Economy </th>
+                            <th ng-click="setOrderIDA('precio_economy')">OFER/VEND/DISP Bussiness </th>
+                            <th ng-click="setOrderIDA('precio_economy')">OFER/VEND/DISP Optima </th>
+                            <th ng-click="setOrderIDA('precio_economy')">OFER/VEND/DISP Economy</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                    <tbody>
+                        <tr ng-repeat="item in data|  startFrom : (pageSize*currentPage)  |limitTo: (pageSize) |filter:{'vuelo': 'IB'} | orderBy:selectedOrderIDA:reverse">
+                            <td> {{ item.vuelo}}</td>
+                            <td> {{ item.origen | utf8_decode }}</td>
+                            <td> {{ item.destino | utf8_decode }} </td>
+                            <td class="text-center"> {{ item.salida | date: "HH:mm" }} </td>
+                            <td class="text-center"> {{ item.llegada  | date: "HH:mm"   }} </td>
+                            <td class="text-center"> {{ item.precio_business }}</td>
+                            <td class="text-center"> {{ item.precio_optima }} </td>
+                            <td class="text-center"> {{ item.precio_economy }} </td>
+                            <td ng-repeat="items in comprar |filter:{'vuelo': item.vuelo}" style="text-align: center">{{ item.plazas_business }} /{{ items.npas_businnes }} / {{item.plazas_business - items.npas_businnes}} </td>
+                            <td ng-repeat="items in comprar |filter:{'vuelo': item.vuelo}" style="text-align: center">{{ item.plazas_optima }} /{{ items.npas_optima }} / {{item.plazas_optima - items.npas_optima}} </td>
+                            <td ng-repeat="items in comprar |filter:{'vuelo': item.vuelo}" style="text-align: center">{{ item.plazas_economy }} /{{ items.npas_economy }} / {{item.plazas_economy - items.npas_economy}} </td>
+                            
+                            
+                            
+                        </tr> 
+                    </tbody>
+                    
+                    <tfoot>
+
+                        <td colspan="6">
+                            <div class="pagination pull-right">
+                                <ul>
+                                    <li ng-class="{disabled: currentPage == 0}">
+                                        <a href ng-click="prevPage()">« Prev</a>
+                                    </li>
+                                    <li>
+                                        <a href ng-click="nextPage()">Next »</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+
+                    </tfoot>
+                </table>
+                
+            </div>
+
+        </div>
+    </div> 
+       <div ng-show="showNew==3">
+        <h1 class="ml6 text-center">
+            <span class="text-wrapper">
+                <span class="letters" style="color: white">Aairlines</span>
             </span>
         </h1>
         <div class="card mt-5 mb-5 mx-auto" style="width: max-content; background-color: rgba(255, 255, 255, 0.75);">
