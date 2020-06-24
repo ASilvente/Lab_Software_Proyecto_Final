@@ -12,6 +12,8 @@ angular.module("trabajo", ['ngRoute'])
         $scope.apellidos = null;
         $scope.dni = null;
 
+        var data = [];
+
         $scope.deshabilitarVUELTA = false;
 
         $scope.init = function () {
@@ -33,12 +35,12 @@ angular.module("trabajo", ['ngRoute'])
             //console.log(response.data);
         });
         $scope.submitForm = function () {
+            for (var i = 1; i<=$scope.nBilletes; i++){
+                data.push({'nombre': $scope.nombre[i], 'apellidos': $scope.apellidos[i], 'dni': $scope.dni[i]});
+            }
+            console.log(data);
             $http.post(
-                    "subir.php", {
-                        'nombre': $scope.nombre,
-                        'apellidos': $scope.apellidos,
-                        'dni' : $scope.dni,
-                    }
+                    "subir.php", data
                 )
                 .then(function (respuesta) {
 
@@ -118,7 +120,7 @@ angular.module("trabajo", ['ngRoute'])
 
         /*  Al reservar un vuelo elimina el valor del elemento (el identificador de vuelo) para que si se decide posteriormente realizar otra reserva no aparezcan los checkbox deshabilitados */
 
-        $scope.limpiar = function () {
+        /*$scope.limpiar = function () {
             if ($scope.elementoIDA.length != undefined) {
                 $scope.seleccionIDA($scope.elementoIDA);
             }
@@ -126,14 +128,7 @@ angular.module("trabajo", ['ngRoute'])
                 $scope.seleccionVUELTA($scope.elementoVUELTA);
             }
 
-        };
-
-
-
-
-
-
-
+        };*/
 
 
         $scope.init();

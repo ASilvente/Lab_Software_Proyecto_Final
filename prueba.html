@@ -64,13 +64,13 @@
         </div>
     </div>
     <div class="card-footer">
-        <button class="btn btn-danger float-right" type="button" ng-click="limpiar()"><a style="color: white; text-decoration: none;" href="index.html"><i class="fas fa-undo"></i> Volver</a></button>
+        <button class="btn btn-danger float-right" type="button" ng-click=""><a style="color: white; text-decoration: none;" href="index.html"><i class="fas fa-undo"></i> Volver</a></button>
 
-        <button ng-if="(precioIDA > 0) && (precioVUELTA > 0) && (vuelta == true)" class="btn btn-success float-right mr-3" type="button" ng-click="limpiar()" data-toggle="modal" data-target="#modalRegistroPasajeros">
+        <button ng-if="(precioIDA > 0) && (precioVUELTA > 0) && (vuelta == true)" class="btn btn-success float-right mr-3" type="button" ng-click="" data-toggle="modal" data-target="#modalRegistroPasajeros">
                 <i class="far fa-calendar-check"></i> Reservar</a>
         </button>
 
-        <button ng-if="(precioIDA > 0) && (vuelta == false)" ng-hide="fcheckOut" class="btn btn-success float-right mr-3" type="button" ng-click="limpiar()" data-toggle="modal" data-target="#modalRegistroPasajeros">
+        <button ng-if="(precioIDA > 0) && (vuelta == false)" ng-hide="fcheckOut" class="btn btn-success float-right mr-3" type="button" ng-click="" data-toggle="modal" data-target="#modalRegistroPasajeros">
             <i class="far fa-calendar-check"></i> Reservar</a>
         </button>
     </div>
@@ -170,7 +170,7 @@
             <div class="modal-header">
                 <h5 class="modal-title" style="color: dodgerblue"><i class="fas fa-user-edit"></i> Pasajeros</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                    <span aria-hidden="true" ng-click="">&times;</span>
                 </button>
             </div>
             <form ng-controller="ctrol" name="userForm" ng-submit="submitForm()" ng-href="main.html">
@@ -185,11 +185,11 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <!--<tr ng-repeat="x in [].constructor(number) track by $index">
-                            <td scope="col">{{$index+1}}</td>-->
-                        <tr>
-                            <td scope="col"></td>
-                            <td scope="col"><input type="text" class="form-control" required ng-model="nombre"></td>
+                        <tr ng-repeat="x in [].constructor(nBilletes) track by $index">
+                            <td class="align-middle" scope="col">{{$index+1}}</td>
+                            <!--<tr>
+                                <td class="align-middle" scope="col"></td>-->
+                            <td scope="col"><input type="text" class="form-control" required ng-model="nombre[$index]"></td>
                             <td scope="col"><input type="text" class="form-control" required ng-model="apellidos"></td>
                             <td scope="col"><input type="number" class="form-control" required ng-model="dni" style="-moz-appearance: textfield;"></td>
                         </tr>
@@ -197,7 +197,7 @@
                     </table>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" ng-click="">Close</button>
                 <button type="submit" class="btn btn-success"><i class="fas fa-user-plus"></i> Registrar pasajeros</button>
             </div>
             </form>
