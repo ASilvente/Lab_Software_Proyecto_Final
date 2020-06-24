@@ -17,3 +17,8 @@
     display: inline-block;
     line-height: 1em;
 }
+
+a, a:hover{
+    text-decoration: none;
+    color: white;
+}

@@ -33,6 +33,7 @@ angular.module("trabajo", ['ngRoute'])
         });
 
 
+
         //paginacion
         $scope.prevPage = function () {
             if ($scope.currentPage > 0) {
@@ -320,15 +321,15 @@ angular.module("trabajo", ['ngRoute'])
         $routeProvider.
         when('/', {
             controller: 'ctrol',
-            templateUrl: 'main.html'
+            templateUrl: 'main.php'
         }).
         when('/prueba/:origen/:destino/:nBilletes/:fcheckIn', {
             controller: 'CountDownCtrl',
-            templateUrl: 'prueba.html'
+            templateUrl: 'prueba.php'
         }).
         when('/prueba/:origen/:destino/:nBilletes/:fcheckIn/:fcheckOut', {
             controller: 'CountDownCtrlb',
-            templateUrl: 'prueba.html'
+            templateUrl: 'prueba.php'
         }).
         otherwise({
             redirectTo: '/'
@@ -354,13 +355,12 @@ angular.module("trabajo", ['ngRoute'])
 
     });
 
-
 angular.module('Otro', ['ngRoute'])
     .config(function ($routeProvider) {
         $routeProvider.
         when('/', {
             controller: 'MainCtrl',
-            templateUrl: 'index.html'
+            templateUrl: 'index.php'
         }).
         when('/prueba/:origen/:destino', {
             controller: 'CountDownCtrl',
@@ -374,5 +374,4 @@ angular.module('Otro', ['ngRoute'])
     .controller('CountDownCtrl', function ($scope, $routeParams, $timeout) {
         $scope.origen = $routeParams.origen;
         $scope.destino = $routeParams.destino;
-
     });
