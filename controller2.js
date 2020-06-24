@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module("trabajo", ['ngRoute'])
-    .controller("ctrol", function ($scope, $http) {
+    .controller("ctrol", function ($scope, $http, $filter) {
         var contadorIDA = 0;
         $scope.elementoIDA = {};
         $scope.deshabilitarIDA = false;
@@ -10,9 +10,7 @@ angular.module("trabajo", ['ngRoute'])
         $scope.elementoVUELTA = {};
         $scope.nombre = null;
         $scope.apellidos = null;
-
         $scope.deshabilitarVUELTA = false;
-
         $scope.init = function () {
             $scope.data = [];
             $scope.error = "";
@@ -28,10 +26,27 @@ angular.module("trabajo", ['ngRoute'])
         };
         $http.get("php/fetch_data.php").then(function (response) {
 
-            // para vuelos.json $scope.data = (response.data.vuelos);
+            $scope.pageSize = 50;
+            $scope.currentPage = 0;
             $scope.data = response.data; //para php
-            //console.log(response.data);
+
         });
+
+
+        //paginacion
+        $scope.prevPage = function () {
+            if ($scope.currentPage > 0) {
+                $scope.currentPage--;
+            }
+        };
+
+        $scope.nextPage = function () {
+            if (parseInt($scope.currentPage) < parseInt($scope.pageSize) - 1) {
+                $scope.currentPage++;
+            }
+        };
+
+
         $scope.submitForm = function () {
             $http.post(
                     "php/subir.php", {
@@ -46,8 +61,41 @@ angular.module("trabajo", ['ngRoute'])
                     $scope.apellidos = null;
                     window.location = ('index.html');
                 });
-        }
-        
+        };
+        $scope.submitFormCompany = function () {
+            $http.post(
+                    "insertar_vuelo.php", {
+
+                        'origen': $scope.searchOrigin,
+                        'destino': $scope.searchDestiny,
+                        'salida': $scope.fechaCheckIn,
+                        'llegada': $scope.fechaCheckOut,
+                        'plazas_business': $scope.plazas_business,
+                        'plazas_optima': $scope.plazas_optima,
+                        'plazas_economy': $scope.plazas_economy,
+                        'precio_business': $scope.precio_business,
+                        'precio_optima': $scope.precio_optima,
+                        'precio_economy': $scope.precio_economy,
+                    }
+                )
+                .then(function (respuesta) {
+
+                    console.log(respuesta);
+                    $scope.origen = null;
+                    $scope.destino = null;
+                    $scope.salida = null;
+                    $scope.llegada = null;
+                    $scope.plazas_business = null;
+                    $scope.plazas_optima = null;
+                    $scope.plazas_economy = null;
+                    $scope.precio_business = null;
+                    $scope.precio_optima = null;
+                    $scope.precio_economy = null;
+                    window.location = ('company.html');
+                });
+        };
+
+
         /*  Seleccionar orden de la tabla */
         $scope.setOrderIDA = function (x) {
             $scope.selectedOrderIDA = x;
@@ -78,7 +126,10 @@ angular.module("trabajo", ['ngRoute'])
             }
         };
 
+        $scope.billetera = function (value) {
 
+            return parseInt(value);
+        }
         $scope.seleccionVUELTA = function (posicion) {
             contadorVUELTA++;
             if (contadorVUELTA % 2 != 0) {
@@ -124,7 +175,22 @@ angular.module("trabajo", ['ngRoute'])
                 $scope.seleccionVUELTA($scope.elementoVUELTA);
             }
         };
+
         $scope.init();
+
+    })
+    //indica desde que valor tiene que empezar a contar, se usa para la paginacion de la pagina company.html
+    .filter('startFrom', function () {
+        return function (input, start) {
+            if (input) {
+                start = +start; //parse to int
+                var appended = input.slice(0, start);
+                var initialArray = input.slice(start);
+                var finalArray = initialArray.concat(appended);
+                return finalArray;
+            }
+            return [];
+        };
     })
     /*  Filtra los nombres de Origen y Destino de tal manera que no se envien duplicados */
 
@@ -153,14 +219,11 @@ angular.module("trabajo", ['ngRoute'])
             var seqlen = 0;
             var anterior = 0;
             strData += '';
+
             while (i < strData.length) {
                 c1 = strData.charCodeAt(i) & 0xFF;
                 seqlen = 0;
-                if (c1 > 250 && anterior != 73 && anterior != 79 && anterior != 85) {
-                    c1 = 0x6E;
-                    seqlen = 1;
-
-                } else if ((c1 == 63 && anterior == 73)) {
+                if ((c1 == 63 && anterior == 73)) {
                     c1 = 0xC1;
                     seqlen = 1;
 
@@ -170,6 +233,59 @@ angular.module("trabajo", ['ngRoute'])
 
                 } else if ((c1 == 63 && anterior == 85)) {
                     c1 = 0xD1;
+                    seqlen = 1;
+
+                } else if (c1 <= 0xBF) {
+                    c1 = (c1 & 0x7F);
+                    seqlen = 1;
+                    anterior = c1;
+
+                } else if (c1 <= 0xDF) {
+                    c1 = (c1 & 0x1F);
+                    seqlen = 2;
+                } else if (c1 <= 0xFF) {
+                    c1 = 0xBF;
+                    seqlen = 3;
+                } else {
+                    c1 = (c1 & 0xFD);
+                    seqlen = 4;
+                }
+
+                if (seqlen == 4) {
+                    c1 -= 0x10000;
+                    tmpArr.push(String.fromCharCode(0xD800 | ((c1 >> 10) & 0x3FF)));
+                    tmpArr.push(String.fromCharCode(0xDC00 | (c1 & 0x3FF)));
+                } else {
+                    tmpArr.push(String.fromCharCode(c1));
+                }
+                i += seqlen;
+            }
+            return tmpArr.join('');
+        };
+    })
+    /*  Mismo codigo pero codifica los caracteres, utilizado para las consultas a la bbdd */
+
+    .filter('utf8_encode', function ($sce) {
+        return function (strData) {
+            var tmpArr = [];
+            var i = 0;
+            var c1 = 0;
+            var seqlen = 0;
+            var anterior = 0;
+            strData += '';
+            while (i < strData.length) {
+                c1 = strData.charCodeAt(i) & 0xFF;
+                seqlen = 0;
+                if ((c1 == 0xC1 && anterior == 73)) {
+                    c1 = 63;
+                    seqlen = 1;
+
+                } else if ((c1 == 0xD1 && anterior == 79)) {
+                    c1 = 63;
+                    seqlen = 1;
+
+                } else if ((c1 == 209 && anterior == 85)) {
+                    c1 = 63;
                     seqlen = 1;
 
                 } else if (c1 <= 0xBF) {
