@@ -24,10 +24,13 @@ $numero = generate_string($permitted_chars, 6);
 
 $data = json_decode(file_get_contents("php://input"));
 
-$nombre = $data->nombre;
-$apellidos = $data->apellidos;
-$dni = $data->dni;
+for ($i = 0; $i < count($data); $i++){
+    $nombre = $data[$i]->nombre;
+    $apellidos = $data[$i]->apellidos;
+    $dni = $data[$i]->dni;
+    $connect->query("INSERT INTO `pasajeros` (`cod_reserva`, `numero`, `nombre`, `apellidos`) VALUES ('".$numero."','".$dni."','".$nombre."','".$apellidos."')") or die(mysql_error());
+}
 
-$connect->query("INSERT INTO `pasajeros` (`cod_reserva`, `numero`, `nombre`, `apellidos`) VALUES ('".$numero."','".$dni."','".$nombre."','".$apellidos."')") or die(mysql_error());
+
 $connect = null;
 ?>

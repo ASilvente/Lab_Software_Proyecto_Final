@@ -173,7 +173,8 @@
                     <span aria-hidden="true" ng-click="">&times;</span>
                 </button>
             </div>
-            <form ng-controller="ctrol" name="userForm" ng-submit="submitForm()" ng-href="main.html">
+            <!--<form ng-controller="ctrol" name="userForm" ng-submit="submitForm()" ng-href="main.html">-->
+            <form ng-controller="ctrol" name="userForm" ng-submit="submitForm()">
             <div class="modal-body">
                     <table class="table table-striped">
                         <thead>
@@ -189,9 +190,9 @@
                             <td class="align-middle" scope="col">{{$index+1}}</td>
                             <!--<tr>
                                 <td class="align-middle" scope="col"></td>-->
-                            <td scope="col"><input type="text" class="form-control" required ng-model="nombre[$index]"></td>
-                            <td scope="col"><input type="text" class="form-control" required ng-model="apellidos"></td>
-                            <td scope="col"><input type="number" class="form-control" required ng-model="dni" style="-moz-appearance: textfield;"></td>
+                            <td scope="col"><input type="text" class="form-control" required id="nombre_{{$index}}"></td>
+                            <td scope="col"><input type="text" class="form-control" required id="apellidos_{{$index}}"></td>
+                            <td scope="col"><input type="number" class="form-control" required id="dni_{{$index}}" style="-moz-appearance: textfield;"></td>
                         </tr>
                         </tbody>
                     </table>

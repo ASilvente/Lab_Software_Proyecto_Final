@@ -11,8 +11,9 @@ angular.module("trabajo", ['ngRoute'])
         $scope.nombre = null;
         $scope.apellidos = null;
         $scope.dni = null;
+        $scope.nameForm = null;
 
-        var data = [];
+        var pasajeros = [];
 
         $scope.deshabilitarVUELTA = false;
 
@@ -35,12 +36,14 @@ angular.module("trabajo", ['ngRoute'])
             //console.log(response.data);
         });
         $scope.submitForm = function () {
-            for (var i = 1; i<=$scope.nBilletes; i++){
-                data.push({'nombre': $scope.nombre[i], 'apellidos': $scope.apellidos[i], 'dni': $scope.dni[i]});
+            for (var i = 0; i < parseInt($scope.nBilletes); i++){
+                pasajeros.push({'nombre': document.getElementById('nombre_'+i).value,
+                    'apellidos': document.getElementById('apellidos_'+i).value,
+                    'dni': document.getElementById('dni_'+i).value});
             }
             console.log(data);
             $http.post(
-                    "subir.php", data
+                    "subir.php", pasajeros
                 )
                 .then(function (respuesta) {
 
@@ -50,7 +53,7 @@ angular.module("trabajo", ['ngRoute'])
                     $scope.dni = null;
                     window.location = ('index.html');
                 });
-        }
+        };
         
         /*  Seleccionar orden de la tabla */
         $scope.setOrderIDA = function (x) {
@@ -70,6 +73,7 @@ angular.module("trabajo", ['ngRoute'])
             $scope.ida = false;
             if (contadorIDA % 2 != 0) {
                 $scope.elementoIDA = posicion;
+                console.log($scope.elementoIDA);
                 $scope.estadoDeshabilitarIDA = true;
                 $scope.ida = true;
 
