@@ -56,6 +56,7 @@ switch ($tipoBilleteIda) {
 
 if($vuelo_vuelta == ""){
     $connect->query("INSERT INTO `compras` (`cod_reserva`, `fecha_compra`, `fecha_vuelo`, `vuelo`, `salida`, `npas_businnes`, `npas_optima`, `npas_economy`) VALUES ('".$numero."', NOW(), '".$salida_ida."', '".$vuelo_ida."', '".$salida_ida."', '".$bussinessIda."', '".$optimaIda."', '".$economyIda."');") or die(mysql_error());
+    $connect->exec("UPDATE `vuelos` SET `plazas_business` = `plazas_business` - ".$bussinessIda.", `plazas_optima` = `plazas_optima` - ".$optimaIda.", `plazas_economy` = plazas_economy - ".$economyIda." WHERE `vuelo` = '".$vuelo_ida."' AND `salida` = '".$salida_ida."'") or die(mysql_error());
 } else {
     $bussinessVuelta = 0;
     $optimaVuelta = 0;
@@ -73,7 +74,11 @@ if($vuelo_vuelta == ""){
     }
     $connect->query("INSERT INTO `compras` (`cod_reserva`, `fecha_compra`, `fecha_vuelo`, `vuelo`, `salida`, `npas_businnes`, `npas_optima`, `npas_economy`) VALUES ('".$numero."', NOW(), '".$salida_ida."', '".$vuelo_ida."', '".$salida_ida."', '".$bussinessIda."', '".$optimaIda."', '".$economyIda."');") or die(mysql_error());
     $connect->query("INSERT INTO `compras` (`cod_reserva`, `fecha_compra`, `fecha_vuelo`, `vuelo`, `salida`, `npas_businnes`, `npas_optima`, `npas_economy`) VALUES ('".$numero."', NOW(), '".$salida_vuelta."', '".$vuelo_vuelta."', '".$salida_vuelta."', '".$bussinessVuelta."', '".$optimaVuelta."', '".$economyVuelta."');") or die(mysql_error());
+    $connect->exec("UPDATE `vuelos` SET `plazas_business` = `plazas_business` - ".$bussinessIda.", `plazas_optima` = `plazas_optima` - ".$optimaIda.", `plazas_economy` = plazas_economy - ".$economyIda." WHERE `vuelo` = '".$vuelo_ida."' AND `salida` = '".$salida_ida."'") or die(mysql_error());
+    $connect->exec("UPDATE `vuelos` SET `plazas_business` = `plazas_business` - ".$bussinessVuelta.", `plazas_optima` = `plazas_optima` - ".$optimaVuelta.", `plazas_economy` = plazas_economy - ".$economyVuelta." WHERE `vuelo` = '".$vuelo_vuelta."' AND `salida` = '".$salida_vuelta."'") or die(mysql_error());
 }
+
+
 
 $connect = null;
 ?>
