@@ -13,6 +13,7 @@ angular.module("trabajo", ['ngRoute'])
         $scope.deshabilitarVUELTA = false;
         $scope.init = function () {
             $scope.data = [];
+            $scope.comprar = [];
             $scope.error = "";
             $scope.selectedOrderIDA = 'vuelo';
             $scope.selectedOrderVUELTA = 'vuelo';
@@ -32,6 +33,10 @@ angular.module("trabajo", ['ngRoute'])
             // para vuelos.json $scope.data = (response.data.vuelos);
             $scope.data = response.data; //para php
             //console.log(response.data);
+        });
+        $http.get("comprar_datos.php").then(function (response) {
+
+            $scope.comprar = response.data; //para php
         });
 
         //paginacion
@@ -92,7 +97,38 @@ angular.module("trabajo", ['ngRoute'])
                     $scope.precio_business = null;
                     $scope.precio_optima = null;
                     $scope.precio_economy = null;
-                    window.location = ('company.html');
+                   // window.location = ('company.html');
+                });
+        };
+        $scope.UpdateFormCompany = function () {
+            $http.post(
+                    "actualizar_vuelo.php", {
+
+                        'vuelo': $scope.IDvuelo,
+                        'origen': $scope.RutaVueloOrigen,
+                        'destino': $scope.RutaVueloDestino,
+                        'fecha': $scope.RutaFecha,
+                        'plazas_business': $scope.plazas_business,
+                        'plazas_optima': $scope.plazas_optima,
+                        'plazas_economy': $scope.plazas_economy,
+                        'precio_business': $scope.precio_business,
+                        'precio_optima': $scope.precio_optima,
+                        'precio_economy': $scope.precio_economy,
+                    }
+                )
+                .then(function (respuesta) {
+
+                    console.log(respuesta);
+                    $scope.vuelo = null;
+                    $scope.origen = null;
+                    $scope.destino = null;
+                    $scope.fecha = null;
+                    $scope.plazas_business = null;
+                    $scope.plazas_optima = null;
+                    $scope.plazas_economy = null;
+                    $scope.precio_business = null;
+                    $scope.precio_optima = null;
+                    $scope.precio_economy   = null;
                 });
         };
 
@@ -128,7 +164,6 @@ angular.module("trabajo", ['ngRoute'])
         };
 
         $scope.billetera = function (value) {
-
             return parseInt(value);
         }
         $scope.seleccionVUELTA = function (posicion) {
@@ -178,7 +213,6 @@ angular.module("trabajo", ['ngRoute'])
 
         };
 
-
         $scope.init();
 
     })
@@ -195,8 +229,8 @@ angular.module("trabajo", ['ngRoute'])
             return [];
         };
     })
-    /*  Filtra los nombres de Origen y Destino de tal manera que no se envien duplicados */
 
+    /*  Filtra los nombres de Origen y Destino de tal manera que no se envien duplicados */
     .filter('unique', function () {
         return function (collection, keyname) {
             var output = [],
@@ -212,6 +246,7 @@ angular.module("trabajo", ['ngRoute'])
             return output;
         };
     })
+
     /*  Analiza letra a letra la cadena de texto y muestra caracteres especiales  */
 
     .filter('utf8_decode', function ($sce) {
