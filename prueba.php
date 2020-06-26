@@ -60,30 +60,30 @@
         </div>
         <div class="row form-inline d-flex justify-content-center mt-3">
             <label class="mr-1">¿Desea cambiar el número de pasajeros?</label>
-            <input class="form-control" style="width: 20%;" type="number" name="n_billetes" min="1" placeholder="{{nBilletes}}" ng-model="nBilletes" value="{{nBilletes}}" ng-init="billetes(nBilletes)">
+            <input class="form-control" style="width: 20%;" type="number" name="n_billetes" min="1" value="{{nBilletes}}" ng-model="nBilletes" id="nBilletes" >
         </div>
     </div>
     <div class="card-footer">
-        <button class="btn btn-danger float-right" type="button" ng-click="limpiar()"><a style="color: white; text-decoration: none;" href="index.html"><i class="fas fa-undo"></i> Volver</a></button>
+        <button class="btn btn-danger float-right" type="button" ng-click=""><a style="color: white; text-decoration: none;" href="index.php"><i class="fas fa-undo"></i> Volver</a></button>
 
-        <button ng-if="(precioIDA > 0) && (precioVUELTA > 0) && (vuelta == true)" class="btn btn-success float-right mr-3" ng-click="limpiar()" type="button">
-            <a style="color: white; text-decoration: none;" href="nombre.html">
+        <button ng-if="(precioIDA > 0) && (precioVUELTA > 0) && (vuelta == true)" class="btn btn-success float-right mr-3" type="button" ng-click="" data-toggle="modal" data-target="#modalRegistroPasajeros">
                 <i class="far fa-calendar-check"></i> Reservar</a>
         </button>
 
-        <button ng-if="(precioIDA > 0) && (vuelta == false)" ng-hide="fcheckOut" class="btn btn-success float-right mr-3" type="button" ng-click="limpiar()"><a style="color: white; text-decoration: none;" href="nombre.html"><i class="far fa-calendar-check"></i> Reservar</a></button>
+        <button ng-if="(precioIDA > 0) && (vuelta == false)" ng-hide="fcheckOut" class="btn btn-success float-right mr-3" type="button" ng-click="" data-toggle="modal" data-target="#modalRegistroPasajeros">
+            <i class="far fa-calendar-check"></i> Reservar</a>
+        </button>
     </div>
 </div>
-<div ng-switch on="((data  | filter: (origen | utf8_encode)).length) && ((data  | filter: (destino | utf8_encode)).length) && ((data | filter:fcheckIn).length) && ((data | filter:fcheckOut).length)">
+<div ng-switch on="((data | filter:origen).length) && ((data | filter:destino).length) && ((data | filter:fcheckIn).length) && ((data | filter:fcheckOut).length)">
     <div class="alert alert-danger ng-empty mx-auto text-center mt-3" style="width: 70%" role="alert" ng-switch-when="0">
         Ups, parece que no hay vuelos programados para las fechas seleccionadas.
     </div>
     <div ng-switch-default>
-        <div data-ng-repeat="item in existenBilletes = (data | filter: {'origen' : (origen | utf8_encode) } | filter: {'destino' : (destino | utf8_encode)} | filter: {'salida' : fcheckIn}) ">
-
+        <div data-ng-repeat="item in existenBilletes = (data | filter: {'origen' : origen} | filter: {'destino' : destino} | filter: {'salida' : fcheckIn}) ">
         </div>
         <div class="alert alert-danger mx-auto text-center mt-3" style="width: 70%" role="alert" ng-if="existenBilletes.length == 0">
-            Ups, parece que no hay vuelos con origen {{origen}} y destino {{destino }} para las fechas seleccionadas.
+            Ups, parece que no hay vuelos con origen {{origen | utf8_decode}} y destino {{destino | utf8_decode}} para las fechas seleccionadas.
         </div>
         <div class="card mt-5 mb-5 mx-auto" style="width: max-content; background-color: rgba(255, 255, 255, 0.75);" ng-if="existenBilletes.length > 0">
             <div class="card-body">
@@ -98,28 +98,25 @@
                         <th ng-click="setOrderIDA('precio_optima')"> Optima </th>
                         <th ng-click="setOrderIDA('precio_economy')"> Economy </th>
                     </tr>
-                    <tr ng-repeat="item in data | filter: {'origen' : (origen | utf8_encode)} | filter: {'destino' : (destino | utf8_encode)} | filter: {'salida' : fcheckIn} | orderBy:selectedOrderIDA:reverse">
+                    <tr ng-repeat="item in data | filter: {'origen' : origen} | filter: {'destino' : destino} | filter: {'salida' : fcheckIn} | orderBy:selectedOrderIDA:reverse">
                         <td> {{ item.vuelo}}</td>
                         <td> {{ item.origen | utf8_decode }}</td>
                         <td> {{ item.destino | utf8_decode }} </td>
                         <td class="text-center"> {{ item.salida | date: "HH:mm" }} </td>
                         <td class="text-center"> {{ item.llegada  | date: "HH:mm"   }} </td>
-                        <td class="text-center"> {{ item.precio_business }}</td>
-                        <td class="text-center"> {{ item.precio_optima }} </td>
-                        <td class="text-center"> {{ item.precio_economy }} </td>
-                        <td><input class="form-check-input" type="checkbox" ng-click="seleccionIDA(item.vuelo)" ng-disabled="(deshabilitarIDA() != item.vuelo && estadoDeshabilitarIDA)" ng-model="BuscarIDA">
+                        <td class="text-center"> {{ item.precio_business }}€</td>
+                        <td class="text-center"> {{ item.precio_optima }}€ </td>
+                        <td class="text-center"> {{ item.precio_economy }}€ </td>
+                        <td><input class="form-check-input" type="checkbox" ng-click="seleccionIDA(item.vuelo, item.salida)" ng-disabled="(deshabilitarIDA() != item.vuelo && estadoDeshabilitarIDA)" ng-model="BuscarIDA">
                         </td>
                         <td style="padding-top: 5px; padding-bottom: 0px;" ng-if="BuscarIDA">
-                            <div ng-if="((billetera(nBilletes)<=item.plazas_business)  || (billetera(nBilletes)<=item.plazas_optima)  || (billetera(nBilletes)<=item.plazas_economy))">
-                                <select class="form-control" ng-model="PrecioIDA" ng-change="EstablecerPrecioIDA(PrecioIDA)">
-                                    <option value="{{ item.precio_business }}" ng-if="(billetera(nBilletes)<=item.plazas_business)">Bussiness ({{item.plazas_business}})</option>
-                                    <option value="{{item.precio_optima}}" ng-if="(billetera(nBilletes)<=item.plazas_optima)">Optima ({{item.plazas_optima}})</option>
-                                    <option value="{{item.precio_economy}}" ng-if="(billetera(nBilletes)<=item.plazas_economy)">Economy ({{item.plazas_economy}})</option>
+                            <div ng-if="BuscarIDA">
+                                <select class="form-control" ng-model="PrecioIDA" ng-init="null" ng-change="EstablecerPrecioIDA(PrecioIDA)">
+                                    <option value="{{ item.precio_business }}" ng-if="item.plazas_business >= nBilletes" ng-click="setTipoIda('Business')">Business ({{item.plazas_business}})</option>
+                                    <option value="{{item.precio_optima}}" ng-if="item.plazas_optima >= nBilletes" ng-click="setTipoIda('Optima')">Optima ({{item.plazas_optima}})</option>
+                                    <option value="{{item.precio_economy}}" ng-if="item.plazas_economy >= nBilletes" ng-click="setTipoIda('Economy')">Economy ({{item.plazas_economy}})</option>
                                     <option value="{{}}" selected disabled hidden>Introduce la clase</option>
                                 </select>
-                            </div>
-                            <div ng-if="((billetera(nBilletes)>item.plazas_business)  && (billetera(nBilletes)>item.plazas_optima)  && (billetera(nBilletes)>item.plazas_economy))">
-                                <input type="text" disabled="disabled" placeholder="No hay plazas" style="text-align: center" ng-value="EstablecerPrecioIDA(0)" />
                             </div>
                         </td>
                     </tr>
@@ -143,23 +140,20 @@
                         <td> {{ item.destino | utf8_decode }} </td>
                         <td class="text-center"> {{ item.salida | date: "HH:mm"  }} </td>
                         <td class="text-center"> {{ item.llegada  | date: "HH:mm"   }} </td>
-                        <td class="text-center"> {{ item.precio_business}}</td>
-                        <td class="text-center"> {{ item.precio_optima }} </td>
-                        <td class="text-center"> {{ item.precio_economy }} </td>
-                        <td><input type="checkbox" ng-click="seleccionVUELTA(item.vuelo)" ng-disabled="deshabilitarVUELTA() != item.vuelo && estadoDeshabilitarVUELTA" ng-model="BuscarVUELTA">
+                        <td class="text-center"> {{ item.precio_business}}€</td>
+                        <td class="text-center"> {{ item.precio_optima }}€ </td>
+                        <td class="text-center"> {{ item.precio_economy }}€ </td>
+                        <td><input type="checkbox" ng-click="seleccionVUELTA(item.vuelo, item.salida)" ng-disabled="deshabilitarVUELTA() != item.vuelo && estadoDeshabilitarVUELTA" ng-model="BuscarVUELTA">
                         </td>
                         <td style="padding-top: 5px; padding-bottom: 0px;" ng-if="BuscarVUELTA">
-                            <div ng-if="((billetera(nBilletes)<=item.plazas_business)  || (billetera(nBilletes)<=item.plazas_optima)  || (billetera(nBilletes)<=item.plazas_economy))">
-                                <select class="form-control" ng-model="PrecioVUELTA" ng-change="EstablecerPrecioVUELTA(PrecioVUELTA)">
-                                    <option value="{{item.precio_business}}" ng-if="(billetera(nBilletes)<=item.plazas_business)">Bussiness ({{item.plazas_business}})</option>
-                                    <option value="{{item.precio_optima}}" ng-if="(billetera(nBilletes)<=item.plazas_optima)">Optima ({{item.plazas_optima}})</option>
-                                    <option value="{{item.precio_economy}}" ng-if="(billetera(nBilletes)<=item.plazas_economy)">Economy ({{item.plazas_economy}})</option>
+                            <div ng-if="BuscarVUELTA">
+                                <select class="form-control" ng-model="PrecioVUELTA" ng-init="null" ng-change="EstablecerPrecioVUELTA(PrecioVUELTA)">
+                                    <option value="{{item.precio_business}}" ng-if="item.plazas_business >= nBilletes" ng-click="setTipoVuelta('Business')">Business</option>
+                                    <option value="{{item.precio_optima}}" ng-if="item.plazas_optima >= nBilletes" ng-click="setTipoVuelta('Optima')">Optima</option>
+                                    <option value="{{item.precio_economy}}" ng-if="item.plazas_economy >= nBilletes" ng-click="setTipoVuelta('Economy')">Economy</option>
                                     <option value="{{}}" selected disabled hidden>Introduce la clase</option>
 
                                 </select>
-                            </div>
-                            <div ng-if="((billetera(nBilletes)>item.plazas_business)  && (billetera(nBilletes)>item.plazas_optima)  && (billetera(nBilletes)>item.plazas_economy))">
-                                <input type="text" disabled="disabled" placeholder="No hay plazas" style="text-align: center" ng-value="EstablecerPrecioVUELTA(0)" />
                             </div>
                         </td>
                     </tr>
@@ -168,3 +162,46 @@
         </div>
     </div>
 </div>
+
+<!-- MODAL REGISTRAR PASAJEROS -->
+<div class="modal fade" id="modalRegistroPasajeros" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" style="color: dodgerblue"><i class="fas fa-user-edit"></i> Pasajeros</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" ng-click="">&times;</span>
+                </button>
+            </div>
+            <form name="userForm" ng-submit="submitForm()">
+            <div class="modal-body">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Apellidos</th>
+                            <th scope="col">DNI (sin letra)</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="x in [].constructor(nBilletes) track by $index">
+                            <td class="align-middle" scope="col">{{$index+1}}</td>
+                            <!--<tr>
+                                <td class="align-middle" scope="col"></td>-->
+                            <td scope="col"><input type="text" class="form-control" required id="nombre_{{$index}}"></td>
+                            <td scope="col"><input type="text" class="form-control" required id="apellidos_{{$index}}"></td>
+                            <td scope="col"><input type="number" class="form-control" required id="dni_{{$index}}" style="-moz-appearance: textfield;"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" ng-click="">Close</button>
+                <button type="submit" class="btn btn-success"><i class="fas fa-user-plus"></i> Registrar pasajeros</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+

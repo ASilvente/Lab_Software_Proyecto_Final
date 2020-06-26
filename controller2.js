@@ -4,12 +4,23 @@ angular.module("trabajo", ['ngRoute'])
     .controller("ctrol", function ($scope, $http, $filter) {
         var contadorIDA = 0;
         $scope.elementoIDA = {};
+        $scope.elementoSalida = {};
+        $scope.elementoSalidaV = {};
         $scope.deshabilitarIDA = false;
 
         var contadorVUELTA = 0;
         $scope.elementoVUELTA = {};
         $scope.nombre = null;
         $scope.apellidos = null;
+
+        $scope.dni = null;
+        $scope.nameForm = null;
+
+        var pasajeros = [];
+
+        $scope.tipoBilleteIda = '';
+        $scope.tipoBilleteVuelta = '';
+
         $scope.deshabilitarVUELTA = false;
         $scope.init = function () {
             $scope.data = [];
@@ -49,20 +60,44 @@ angular.module("trabajo", ['ngRoute'])
 
 
         $scope.submitForm = function () {
+            var billetes = document.getElementById('nBilletes').value;
+            for (var i = 0; i < billetes; i++){
+                pasajeros.push({'nombre': document.getElementById('nombre_'+i).value,
+                    'apellidos': document.getElementById('apellidos_'+i).value,
+                    'dni': document.getElementById('dni_'+i).value});
+            }
+            var elementoVUELTA =  $scope.elementoVUELTA;
+            var elementoSalidaV =  $scope.elementoSalidaV;
+            var tipoBilleteVuelta = $scope.tipoBilleteVuelta;
+            if(angular.equals($scope.elementoVUELTA, {})){
+                elementoVUELTA = "";
+                elementoSalidaV = "";
+                tipoBilleteVuelta = "";
+            }
+
+            pasajeros.push({'vuelo_ida': $scope.elementoIDA,
+            'vuelo_vuelta': elementoVUELTA,
+            'salida_ida': $scope.elementoSalida,
+            'salida_vuelta': elementoSalidaV,
+            'tipoBilleteIda': $scope.tipoBilleteIda,
+            'tipoBilleteVuelta': tipoBilleteVuelta});
+
+            console.log(pasajeros);
             $http.post(
-                    "php/subir.php", {
-                        'nombre': $scope.nombre,
-                        'apellidos': $scope.apellidos,
-                    }
+
+                    "php/subir.php", pasajeros
+
                 )
                 .then(function (respuesta) {
 
                     console.log(respuesta);
                     $scope.nombre = null;
                     $scope.apellidos = null;
-                    window.location = ('index.html');
+                    $scope.dni = null;
+                    window.location = ('index.php');
                 });
         };
+
         $scope.submitFormCompany = function () {
             $http.post(
                     "insertar_vuelo.php", {
@@ -96,7 +131,6 @@ angular.module("trabajo", ['ngRoute'])
                 });
         };
 
-
         /*  Seleccionar orden de la tabla */
         $scope.setOrderIDA = function (x) {
             $scope.selectedOrderIDA = x;
@@ -110,17 +144,20 @@ angular.module("trabajo", ['ngRoute'])
         /*  Selecciona elemento de la checkbox (el identificador del vuelo) y lo almacena o lo borra*/
         /*  Tambien activa o desactiva el poder mostrar el precio */
 
-        $scope.seleccionIDA = function (posicion) {
+        $scope.seleccionIDA = function (posicion, salida) {
             contadorIDA++;
             $scope.ida = false;
             if (contadorIDA % 2 != 0) {
                 $scope.elementoIDA = posicion;
+                $scope.elementoSalida = salida;
+                //console.log($scope.elementoSalida);
                 $scope.estadoDeshabilitarIDA = true;
                 $scope.ida = true;
 
             } else {
                 contadorIDA = 0;
                 $scope.elementoIDA = {};
+                $scope.elementoSalida = {};
                 $scope.estadoDeshabilitarIDA = false;
                 $scope.ida = false;
                 $scope.precioIDA = 0;
@@ -128,18 +165,20 @@ angular.module("trabajo", ['ngRoute'])
         };
 
         $scope.billetera = function (value) {
-
             return parseInt(value);
         }
-        $scope.seleccionVUELTA = function (posicion) {
+
+        $scope.seleccionVUELTA = function (posicion, salida) {
             contadorVUELTA++;
             if (contadorVUELTA % 2 != 0) {
                 $scope.elementoVUELTA = posicion;
+                $scope.elementoSalidaV = salida;
                 $scope.estadoDeshabilitarVUELTA = true;
                 $scope.vuelta = true;
             } else {
                 contadorVUELTA = 0;
                 $scope.elementoVUELTA = {};
+                $scope.elementoSalidaV = {};
                 $scope.estadoDeshabilitarVUELTA = false;
                 $scope.vuelta = false;
                 $scope.precioVUELTA = 0;
@@ -165,7 +204,6 @@ angular.module("trabajo", ['ngRoute'])
             $scope.precioVUELTA = x;
         };
 
-
         /*  Al reservar un vuelo elimina el valor del elemento (el identificador de vuelo) para que si se decide posteriormente realizar otra reserva no aparezcan los checkbox deshabilitados */
 
         $scope.limpiar = function () {
@@ -175,6 +213,14 @@ angular.module("trabajo", ['ngRoute'])
             if ($scope.elementoVUELTA.length != undefined) {
                 $scope.seleccionVUELTA($scope.elementoVUELTA);
             }
+        };
+
+        $scope.setTipoIda = function (tipo) {
+            $scope.tipoBilleteIda = tipo;
+        };
+
+        $scope.setTipoVuelta = function (tipo) {
+            $scope.tipoBilleteVuelta = tipo;
         };
 
         $scope.init();
