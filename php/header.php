@@ -1,4 +1,7 @@
 <?php
+    echo '<nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top"">
+            <a class="navbar-brand" href="#">Logo</a>
+                <ul class="navbar-nav ml-auto">';
     if(isset($_COOKIE['usr_ck'])){
         echo    '<div>
                     '//<P>Iniciado sesión como '. $_COOKIE['usr_ck'].'</p>
@@ -34,6 +37,7 @@
                         </button>
                     </li>
                 </div>';
-    //}
+    echo    '</ul>
+        </nav>'
     
 ?> 

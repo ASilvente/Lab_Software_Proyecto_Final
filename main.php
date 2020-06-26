@@ -1,17 +1,9 @@
 <div class="container" style="height: 100vh">
-    <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
-        <a class="navbar-brand" href="#">Logo</a>
-        <ul class="navbar-nav ml-auto">
-            
-                <?php
-                    include 'php/header.php';
-                ?>            
-            
-            
-            
-        </ul>
-      </nav>
-    <div class="row h-100">
+
+    <?php
+        include 'php/header.php';
+    ?>            
+    <div class="row h-100" ">
         <div class="col-sm-12 my-auto mx-auto">
             <!-- The Modal -->
             <div class="modal" id="myModal2" >

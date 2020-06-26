@@ -1,4 +1,14 @@
-<div class="card mx-auto mt-5" style="width: max-content; background-color: rgba(255, 255, 255, 0.75);">
+
+    
+    <div style="background-color:green">
+        <?php
+            include 'php/header.php';
+        ?> 
+
+    </div>
+<div style="margin-top: 100px;">
+    <div class="card mx-auto mt-5" style="width: max-content;  background-color: rgba(255, 255, 255, 0.75);">
+
     <div class="card-header bg-primary">
         <div class="row">
             <h4 class="my-auto mx-auto" style="color: white"><i class="fas fa-edit"></i> Datos de su reserva</h4>
@@ -204,4 +214,7 @@
         </div>
     </div>
 </div>
+    </div>
+
+
 
