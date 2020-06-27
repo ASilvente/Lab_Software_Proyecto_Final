@@ -74,13 +74,14 @@ angular.module("trabajo", ['ngRoute'])
                 elementoSalidaV = "";
                 tipoBilleteVuelta = "";
             }
-
+            var cod_reserva = makeid(5);
             pasajeros.push({'vuelo_ida': $scope.elementoIDA,
             'vuelo_vuelta': elementoVUELTA,
             'salida_ida': $scope.elementoSalida,
             'salida_vuelta': elementoSalidaV,
             'tipoBilleteIda': $scope.tipoBilleteIda,
-            'tipoBilleteVuelta': tipoBilleteVuelta});
+            'tipoBilleteVuelta': tipoBilleteVuelta,
+            'numero': cod_reserva});
 
             console.log(pasajeros);
             $http.post(
@@ -89,11 +90,11 @@ angular.module("trabajo", ['ngRoute'])
 
                 )
                 .then(function (respuesta) {
-
                     console.log(respuesta);
                     $scope.nombre = null;
                     $scope.apellidos = null;
                     $scope.dni = null;
+                    alert("Su código de reserva es: "+cod_reserva+".");
                     window.location = ('index.php');
                 });
         };
@@ -421,3 +422,13 @@ angular.module('Otro', ['ngRoute'])
         $scope.origen = $routeParams.origen;
         $scope.destino = $routeParams.destino;
     });
+
+function makeid(length) {
+    var result           = '';
+    var characters       = '0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+}

@@ -23,7 +23,7 @@
     }
     else//(!isset($_COOKIE['usr_ck']) && !isset($_COOKIE['aero_ck'])){
         echo    '<div>
-                    <li class="nav-item" style="margin-right: 10px;">
+                    <li class="nav-item mr-3">
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal2" >
                             <!--<a href="company.html"></a>-->
                             <b >Iniciar sesión</b>
@@ -31,9 +31,16 @@
                     </li>                                                                        
                 </div>
                 <div>
-                    <li class="nav-item">
+                    <li class="nav-item mr-3">
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" >
                             <b >Regístrate</b>                       
+                        </button>
+                    </li>
+                </div>
+                <div>
+                    <li class="nav-item">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#cancelarReserva" >
+                            <b >Cancelar reserva</b>                       
                         </button>
                     </li>
                 </div>';

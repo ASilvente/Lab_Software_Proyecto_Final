@@ -1,11 +1,8 @@
-
-    
-    <div style="background-color:green">
-        <?php
-            include 'php/header.php';
-        ?> 
-
-    </div>
+<div style="background-color:green">
+    <?php
+        include 'php/header.php';
+    ?>
+</div>
 <div style="margin-top: 100px;">
     <div class="card mx-auto mt-5" style="width: max-content;  background-color: rgba(255, 255, 255, 0.75);">
 
@@ -174,47 +171,47 @@
 </div>
 
 <!-- MODAL REGISTRAR PASAJEROS -->
-<div class="modal fade" id="modalRegistroPasajeros" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" style="color: dodgerblue"><i class="fas fa-user-edit"></i> Pasajeros</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true" ng-click="">&times;</span>
-                </button>
+    <div class="modal fade" id="modalRegistroPasajeros" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" style="color: dodgerblue"><i class="fas fa-user-edit"></i> Pasajeros</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" ng-click="">&times;</span>
+                    </button>
+                </div>
+                <form name="userForm" ng-submit="submitForm()">
+                <div class="modal-body">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th scope="col"></th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Apellidos</th>
+                                <th scope="col">DNI (sin letra)</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="x in [].constructor(nBilletes) track by $index">
+                                <td class="align-middle" scope="col">{{$index+1}}</td>
+                                <!--<tr>
+                                    <td class="align-middle" scope="col"></td>-->
+                                <td scope="col"><input type="text" class="form-control" required id="nombre_{{$index}}"></td>
+                                <td scope="col"><input type="text" class="form-control" required id="apellidos_{{$index}}"></td>
+                                <td scope="col"><input type="number" class="form-control" required id="dni_{{$index}}" style="-moz-appearance: textfield;"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" ng-click="">Close</button>
+                    <button type="submit" class="btn btn-success"><i class="fas fa-user-plus"></i> Registrar pasajeros</button>
+                </div>
+                </form>
             </div>
-            <form name="userForm" ng-submit="submitForm()">
-            <div class="modal-body">
-                    <table class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th scope="col"></th>
-                            <th scope="col">Nombre</th>
-                            <th scope="col">Apellidos</th>
-                            <th scope="col">DNI (sin letra)</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr ng-repeat="x in [].constructor(nBilletes) track by $index">
-                            <td class="align-middle" scope="col">{{$index+1}}</td>
-                            <!--<tr>
-                                <td class="align-middle" scope="col"></td>-->
-                            <td scope="col"><input type="text" class="form-control" required id="nombre_{{$index}}"></td>
-                            <td scope="col"><input type="text" class="form-control" required id="apellidos_{{$index}}"></td>
-                            <td scope="col"><input type="number" class="form-control" required id="dni_{{$index}}" style="-moz-appearance: textfield;"></td>
-                        </tr>
-                        </tbody>
-                    </table>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" ng-click="">Close</button>
-                <button type="submit" class="btn btn-success"><i class="fas fa-user-plus"></i> Registrar pasajeros</button>
-            </div>
-            </form>
         </div>
     </div>
 </div>
-    </div>
 
 
 
