@@ -6,6 +6,14 @@ angular.module("trabajo", ['ngRoute'])
         $scope.elementoIDA = {};
         $scope.deshabilitarIDA = false;
 
+        var contadorIntermedioIDA = 0;
+        $scope.elementoIntermedioIDA = {};
+        $scope.deshabilitarIntermedioIDA = false;
+        
+        var contadorDestinoIDA = 0;
+        $scope.elementoDestinoIDA = {};
+        $scope.deshabilitarDestinoIDA = false;
+
         var contadorVUELTA = 0;
         $scope.elementoVUELTA = {};
         $scope.nombre = null;
@@ -16,12 +24,24 @@ angular.module("trabajo", ['ngRoute'])
             $scope.comprar = [];
             $scope.error = "";
             $scope.selectedOrderIDA = 'vuelo';
+            $scope.selectedOrderIntermedioIDA = 'vuelo';
+            $scope.selectedOrderDestinoIDA = 'vuelo';
+
             $scope.selectedOrderVUELTA = 'vuelo';
             $scope.values = "origen";
             $scope.precioIDA = 0;
+            $scope.precioIntermedioIDA = 0;
+            $scope.precioDestinoIDA = 0;
+
             $scope.precioVUELTA = 0;
+
             $scope.vuelta = false;
+
             $scope.ida = false;
+            $scope.CiudadIntermedia = '';
+            $scope.Intermedioida = false;
+            $scope.DestinoIDA = false;
+
             $scope.showVuelta = true;
 
             $scope.pageSize = 50;
@@ -97,7 +117,7 @@ angular.module("trabajo", ['ngRoute'])
                     $scope.precio_business = null;
                     $scope.precio_optima = null;
                     $scope.precio_economy = null;
-                   // window.location = ('company.html');
+                    // window.location = ('company.html');
                 });
         };
         $scope.UpdateFormCompany = function () {
@@ -128,7 +148,7 @@ angular.module("trabajo", ['ngRoute'])
                     $scope.plazas_economy = null;
                     $scope.precio_business = null;
                     $scope.precio_optima = null;
-                    $scope.precio_economy   = null;
+                    $scope.precio_economy = null;
                 });
         };
 
@@ -136,6 +156,14 @@ angular.module("trabajo", ['ngRoute'])
         /*  Seleccionar orden de la tabla */
         $scope.setOrderIDA = function (x) {
             $scope.selectedOrderIDA = x;
+
+        };
+        $scope.setOrderIntermedioIDA = function (x) {
+            $scope.selectedOrderIntermedioIDA = x;
+
+        };
+        $scope.setOrderDestinoIDA = function (x) {
+            $scope.selectedOrderIntermedioIDA = x;
 
         };
         $scope.setOrderVUELTA = function (x) {
@@ -162,6 +190,42 @@ angular.module("trabajo", ['ngRoute'])
                 $scope.precioIDA = 0;
             }
         };
+        $scope.seleccionIntermedioIDA = function (posicion) {
+            contadorIntermedioIDA++;
+            $scope.IntermedioIDA = false;
+            if (contadorIntermedioIDA % 2 != 0) {
+                $scope.elementoIntermedioIDA = posicion;
+                $scope.estadoDeshabilitarIntermedioIDA = true;
+                $scope.IntermedioIDA = true;
+                console.log(posicion);
+                $scope.CiudadIntermedia = posicion;
+
+            } else {
+                contadorIDA = 0;
+                $scope.elementoIntermedioIDA = {};
+                $scope.estadoDeshabilitarIntermedioIDA = false;
+                $scope.Intermedioida = false;
+                $scope.precioIntermedioIDA = 0;
+                $scope.CiudadIntermedia = '';
+
+            }
+        };
+        $scope.seleccionDestinoIDA = function (posicion) {
+            contadorDestinoIDA++;
+            $scope.DestinoIDA = false;
+            if (contadorDestinoIDA % 2 != 0) {
+                $scope.elementoDestinoIDA = posicion;
+                $scope.estadoDeshabilitarDestinoIDA = true;
+                $scope.DestinoIDA = true;
+
+            } else {
+                contadorDestinoIDA = 0;
+                $scope.elementoDestinoIDA = {};
+                $scope.estadoDeshabilitarDestinoIDA = false;
+                $scope.Destinoida = false;
+                $scope.precioDestinoIDA = 0;
+            }
+        };
 
         $scope.billetera = function (value) {
             return parseInt(value);
@@ -185,6 +249,13 @@ angular.module("trabajo", ['ngRoute'])
         $scope.deshabilitarIDA = function () {
             return $scope.elementoIDA;
         };
+        $scope.deshabilitarIntermedioIDA = function () {
+            return $scope.elementoIntermedioIDA;
+        };
+
+        $scope.deshabilitarDestinoIDA = function () {
+            return $scope.elementoDestinoIDA;
+        };
 
         $scope.deshabilitarVUELTA = function () {
             return $scope.elementoVUELTA;
@@ -196,6 +267,13 @@ angular.module("trabajo", ['ngRoute'])
         $scope.EstablecerPrecioIDA = function (x) {
             $scope.precioIDA = x;
         };
+        $scope.EstablecerPrecioIntermedioIDA = function (x) {
+            $scope.precioIntermedioIDA = x;
+        };
+        $scope.EstablecerPrecioDestinoIDA = function (x) {
+            console.log(x);
+            $scope.precioDestinoIDA = x;
+        };
         $scope.EstablecerPrecioVUELTA = function (x) {
             $scope.precioVUELTA = x;
         };
@@ -206,6 +284,9 @@ angular.module("trabajo", ['ngRoute'])
         $scope.limpiar = function () {
             if ($scope.elementoIDA.length != undefined) {
                 $scope.seleccionIDA($scope.elementoIDA);
+            }
+            if ($scope.elementoIntermedioIDA.length != undefined) {
+                $scope.seleccionIntermedioIDA($scope.elementoIntermedioIDA);
             }
             if ($scope.elementoVUELTA.length != undefined) {
                 $scope.seleccionVUELTA($scope.elementoVUELTA);
@@ -230,6 +311,14 @@ angular.module("trabajo", ['ngRoute'])
         };
     })
 
+    .filter('removeSpaces', [function () {
+        return function (string) {
+            if (!angular.isString(string)) {
+                return string;
+            }
+            return string.replace(/[\s]/g, '');
+        };
+}])
     /*  Filtra los nombres de Origen y Destino de tal manera que no se envien duplicados */
     .filter('unique', function () {
         return function (collection, keyname) {
