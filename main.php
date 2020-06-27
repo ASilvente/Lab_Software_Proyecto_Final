@@ -142,30 +142,38 @@
                                 <div class="row">
                                     <div class="col-md-2"></div>
                                     <div class="col-md-4 form-inline">
-                                        <input class="form-check-input" type="radio"  ng-model="showInputDataUser" ng-value="true" checked>
+                                        <input class="form-check-input" type="radio" ng-model="showInputDataUser" ng-value="true" checked>
                                         <label class="form-check-label">Mi billete</label>
                                     </div>
                                     <div class="col-md-5 form-inline">
-                                        <input class="form-check-input" type="radio"  ng-model="showInputDataUser" ng-value="false" checked>
+                                        <input class="form-check-input" type="radio" ng-change="resetDatosCancReserva()" ng-model="showInputDataUser" ng-value="false" checked>
                                         <label class="form-check-label">Todos los billetes</label>
                                     </div>
                                     <div class="col-md-1"></div>
                                     <div class="col-md-12 mt-2 form-inline">
                                         <label class="form-check-label"><i class="far fa-file-alt mr-1"></i> Código de reserva: </label>
-                                        <input class="form-control ml-1" type="number" maxlength="6" style="-moz-appearance: textfield;" required>
+                                        <input class="form-control ml-1" type="number" ng-model="setReserva" maxlength="6" style="-moz-appearance: textfield;" required>
                                     </div>
-                                    <div class="col-md-6 mt-3" ng-show="showInputDataUser">
-                                        <label class="form-check-label"><i class="fas fa-receipt"></i> Nombre: </label>
-                                        <input class="form-control ml-1" type="text" required>
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-12 mt-3" ng-show="showInputDataUser">
+                                                <label class="form-check-label"><i class="fas fa-signature"></i> Nombre: </label>
+                                                <input class="form-control ml-1" type="text" ng-model="setNombre" required>
+                                            </div>
+                                            <div class="col-md-12 mt-1" ng-show="showInputDataUser">
+                                                <label class="form-check-label"><i class="fas fa-file-signature"></i> Apellidos: </label>
+                                                <input class="form-control ml-1" type="text" ng-model="setApellidos" required>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="col-md-6 mt-3" ng-show="showInputDataUser">
-                                        <label class="form-check-label"><i class="fas fa-receipt"></i> Apellidos: </label>
-                                        <input class="form-control ml-1" type="text" required>
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-12 mt-3 justify-content-center" ng-show="showInputDataUser">
+                                                <label class="form-check-label"><i class="fas fa-id-card"></i> DNI (sin letra): </label>
+                                                <input class="form-control ml-1" type="number" ng-model="setDNI" style="-moz-appearance: textfield;" required>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <!--<div class="col-md-12 mt-3 justify-content-center" ng-show="showInputDataUser">
-                                        <label class="form-check-label"><i class="fas fa-receipt"></i> DNI (sin letra): </label>
-                                        <input class="form-control ml-1" type="text" required>
-                                    </div>-->
                                 </div>
 
                             </div>

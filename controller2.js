@@ -84,7 +84,6 @@ angular.module("trabajo", ['ngRoute'])
             'tipoBilleteVuelta': tipoBilleteVuelta,
             'numero': cod_reserva});
 
-            console.log(pasajeros);
             $http.post(
 
                     "php/subir.php", pasajeros
@@ -130,6 +129,30 @@ angular.module("trabajo", ['ngRoute'])
                     $scope.precio_optima = null;
                     $scope.precio_economy = null;
                     window.location = ('company.html');
+                });
+        };
+
+        $scope.submitFormReserva = function () {
+            if(angular.equals($scope.setNombre, {})){
+                $scope.setNombre = "";
+                $scope.setApellidos = "";
+                $scope.setDNI = "";
+            }
+
+            $http.post(
+
+                "php/eliminarReserva.php", {'reserva': $scope.setReserva,
+                    'nombre': $scope.setNombre,
+                    'apellidos': $scope.setApellidos,
+                    'dni': $scope.setDNI}
+                )
+                .then(function (respuesta) {
+                    console.log(respuesta);
+                    $scope.setNombre = null;
+                    $scope.setApellidos = null;
+                    $scope.setDNI = null;
+                    alert("Reserva cancelada con éxito.");
+                    window.location = ('index.php');
                 });
         };
 
@@ -223,6 +246,12 @@ angular.module("trabajo", ['ngRoute'])
 
         $scope.setTipoVuelta = function (tipo) {
             $scope.tipoBilleteVuelta = tipo;
+        };
+
+        $scope.resetDatosCancReserva = function () {
+            $scope.setDNI = '';
+            $scope.setNombre = '';
+            $scope.setApellidos = '';
         };
 
         $scope.init();
