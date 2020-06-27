@@ -132,7 +132,7 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" style="color: dodgerblue"><i class="fas fa-plane-slash"></i> Cancelar reserva</h5>
+                            <h5 class="modal-title" style="color: dodgerblue"><i class="fas fa-receipt mr-1"></i> Cancelar reserva</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true" ng-click="">&times;</span>
                             </button>
@@ -151,23 +151,27 @@
                                     </div>
                                     <div class="col-md-1"></div>
                                     <div class="col-md-12 mt-2 form-inline">
-                                        <label class="form-check-label"><i class="fas fa-receipt mr-1"></i> Código de reserva: </label>
-                                        <input class="form-control ml-1" type="number" maxlength="6" style="-moz-appearance: textfield;">
+                                        <label class="form-check-label"><i class="far fa-file-alt mr-1"></i> Código de reserva: </label>
+                                        <input class="form-control ml-1" type="number" maxlength="6" style="-moz-appearance: textfield;" required>
                                     </div>
                                     <div class="col-md-6 mt-3" ng-show="showInputDataUser">
                                         <label class="form-check-label"><i class="fas fa-receipt"></i> Nombre: </label>
-                                        <input class="form-control ml-1" type="number" maxlength="6" style="-moz-appearance: textfield;">
+                                        <input class="form-control ml-1" type="text" required>
                                     </div>
                                     <div class="col-md-6 mt-3" ng-show="showInputDataUser">
                                         <label class="form-check-label"><i class="fas fa-receipt"></i> Apellidos: </label>
-                                        <input class="form-control ml-1" type="number" maxlength="6" style="-moz-appearance: textfield;">
+                                        <input class="form-control ml-1" type="text" required>
                                     </div>
+                                    <!--<div class="col-md-12 mt-3 justify-content-center" ng-show="showInputDataUser">
+                                        <label class="form-check-label"><i class="fas fa-receipt"></i> DNI (sin letra): </label>
+                                        <input class="form-control ml-1" type="text" required>
+                                    </div>-->
                                 </div>
 
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal" ng-click="">Close</button>
-                                <button type="submit" class="btn btn-success"><i class="fas fa-user-plus"></i> Registrar pasajeros</button>
+                                <button type="submit" class="btn btn-success"><i class="fas fa-plane-slash"></i> Registrar pasajeros</button>
                             </div>
                         </form>
                     </div>
@@ -199,12 +203,12 @@
                         </div>
                         <div class="row mb-1">
                             <div class="col-md-6 form-inline">
-                                <div class="form-check col-md-6">
-                                    <input class="form-check-input" type="radio"  ng-model="showVuelta" ng-value="true" checked>
+                                <div class="form-check col-md-7">
+                                    <input class="form-check-input" type="radio" ng-model="showVuelta" ng-value="true" checked>
                                     <label class="form-check-label">Ida y vuelta</label>
                                 </div>
-                                <div class="form-check col-md-6">
-                                    <input class="form-check-input" type="radio"  ng-model="showVuelta" ng-value="false">
+                                <div class="form-check col-md-5">
+                                    <input class="form-check-input" type="radio" ng-change="fechaCheckOut = ''" ng-model="showVuelta" ng-value="false">
                                     <label class="form-check-label">Sólo ida</label>
                                 </div>
                             </div>
