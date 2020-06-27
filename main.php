@@ -158,11 +158,11 @@
                                         <div class="row">
                                             <div class="col-md-12 mt-3" ng-show="showInputDataUser">
                                                 <label class="form-check-label"><i class="fas fa-signature"></i> Nombre: </label>
-                                                <input class="form-control ml-1" type="text" ng-model="setNombre" required>
+                                                <input class="form-control ml-1" type="text" ng-model="setNombre">
                                             </div>
                                             <div class="col-md-12 mt-1" ng-show="showInputDataUser">
                                                 <label class="form-check-label"><i class="fas fa-file-signature"></i> Apellidos: </label>
-                                                <input class="form-control ml-1" type="text" ng-model="setApellidos" required>
+                                                <input class="form-control ml-1" type="text" ng-model="setApellidos">
                                             </div>
                                         </div>
                                     </div>
@@ -170,7 +170,7 @@
                                         <div class="row">
                                             <div class="col-md-12 mt-3 justify-content-center" ng-show="showInputDataUser">
                                                 <label class="form-check-label"><i class="fas fa-id-card"></i> DNI (sin letra): </label>
-                                                <input class="form-control ml-1" type="number" ng-model="setDNI" style="-moz-appearance: textfield;" required>
+                                                <input class="form-control ml-1" type="number" ng-model="setDNI" style="-moz-appearance: textfield;">
                                             </div>
                                         </div>
                                     </div>
