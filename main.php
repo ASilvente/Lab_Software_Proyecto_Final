@@ -132,33 +132,38 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" style="color: dodgerblue"><i class="fas fa-user-edit"></i> Pasajeros</h5>
+                            <h5 class="modal-title" style="color: dodgerblue"><i class="fas fa-plane-slash"></i> Cancelar reserva</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true" ng-click="">&times;</span>
                             </button>
                         </div>
-                        <form name="userForm" ng-submit="submitForm()">
+                        <form name="userForm" ng-submit="submitFormReserva()">
                             <div class="modal-body">
-                                <table class="table table-striped">
-                                    <thead>
-                                    <tr>
-                                        <th scope="col"></th>
-                                        <th scope="col">Nombre</th>
-                                        <th scope="col">Apellidos</th>
-                                        <th scope="col">DNI (sin letra)</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr ng-repeat="x in [].constructor(nBilletes) track by $index">
-                                        <td class="align-middle" scope="col">{{$index+1}}</td>
-                                        <!--<tr>
-                                            <td class="align-middle" scope="col"></td>-->
-                                        <td scope="col"><input type="text" class="form-control" required id="nombre_{{$index}}"></td>
-                                        <td scope="col"><input type="text" class="form-control" required id="apellidos_{{$index}}"></td>
-                                        <td scope="col"><input type="number" class="form-control" required id="dni_{{$index}}" style="-moz-appearance: textfield;"></td>
-                                    </tr>
-                                    </tbody>
-                                </table>
+                                <div class="row">
+                                    <div class="col-md-2"></div>
+                                    <div class="col-md-4 form-inline">
+                                        <input class="form-check-input" type="radio"  ng-model="showInputDataUser" ng-value="true" checked>
+                                        <label class="form-check-label">Mi billete</label>
+                                    </div>
+                                    <div class="col-md-5 form-inline">
+                                        <input class="form-check-input" type="radio"  ng-model="showInputDataUser" ng-value="false" checked>
+                                        <label class="form-check-label">Todos los billetes</label>
+                                    </div>
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-12 mt-2 form-inline">
+                                        <label class="form-check-label"><i class="fas fa-receipt mr-1"></i> Código de reserva: </label>
+                                        <input class="form-control ml-1" type="number" maxlength="6" style="-moz-appearance: textfield;">
+                                    </div>
+                                    <div class="col-md-6 mt-3" ng-show="showInputDataUser">
+                                        <label class="form-check-label"><i class="fas fa-receipt"></i> Nombre: </label>
+                                        <input class="form-control ml-1" type="number" maxlength="6" style="-moz-appearance: textfield;">
+                                    </div>
+                                    <div class="col-md-6 mt-3" ng-show="showInputDataUser">
+                                        <label class="form-check-label"><i class="fas fa-receipt"></i> Apellidos: </label>
+                                        <input class="form-control ml-1" type="number" maxlength="6" style="-moz-appearance: textfield;">
+                                    </div>
+                                </div>
+
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal" ng-click="">Close</button>

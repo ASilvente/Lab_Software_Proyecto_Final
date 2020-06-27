@@ -34,6 +34,7 @@ angular.module("trabajo", ['ngRoute'])
             $scope.ida = false;
             $scope.showVuelta = true;
             $scope.showCliente = true;
+            $scope.showInputDataUser = true;
         };
         $http.get("php/fetch_data.php").then(function (response) {
 
