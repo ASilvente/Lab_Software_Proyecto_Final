@@ -25,9 +25,6 @@
 <script src="js/anime.js"></script>
 
 
-
-
-
 </body>
 
 </html>

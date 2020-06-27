@@ -8,6 +8,14 @@ angular.module("trabajo", ['ngRoute'])
         $scope.elementoSalidaV = {};
         $scope.deshabilitarIDA = false;
 
+        var contadorIntermedioIDA = 0;
+        $scope.elementoIntermedioIDA = {};
+        $scope.deshabilitarIntermedioIDA = false;
+        
+        var contadorDestinoIDA = 0;
+        $scope.elementoDestinoIDA = {};
+        $scope.deshabilitarDestinoIDA = false;
+
         var contadorVUELTA = 0;
         $scope.elementoVUELTA = {};
         $scope.nombre = null;
@@ -24,21 +32,35 @@ angular.module("trabajo", ['ngRoute'])
         $scope.deshabilitarVUELTA = false;
         $scope.init = function () {
             $scope.data = [];
+            $scope.comprar = [];
             $scope.error = "";
             $scope.selectedOrderIDA = 'vuelo';
+            $scope.selectedOrderIntermedioIDA = 'vuelo';
+            $scope.selectedOrderDestinoIDA = 'vuelo';
+
             $scope.selectedOrderVUELTA = 'vuelo';
             $scope.values = "origen";
             $scope.precioIDA = 0;
+            $scope.precioIntermedioIDA = 0;
+            $scope.precioDestinoIDA = 0;
+
             $scope.precioVUELTA = 0;
+
             $scope.vuelta = false;
+
             $scope.ida = false;
+            $scope.CiudadIntermedia = '';
+            $scope.Intermedioida = false;
+            $scope.DestinoIDA = false;
+
             $scope.showVuelta = true;
             $scope.showCliente = true;
-        };
-        $http.get("php/fetch_data.php").then(function (response) {
 
             $scope.pageSize = 50;
             $scope.currentPage = 0;
+        };
+        $http.get("php/fetch_data.php").then(function (response) {
+
             $scope.data = response.data; //para php
 
         });
@@ -84,12 +106,9 @@ angular.module("trabajo", ['ngRoute'])
 
             console.log(pasajeros);
             $http.post(
-
                     "php/subir.php", pasajeros
-
                 )
                 .then(function (respuesta) {
-
                     console.log(respuesta);
                     $scope.nombre = null;
                     $scope.apellidos = null;
@@ -131,9 +150,49 @@ angular.module("trabajo", ['ngRoute'])
                 });
         };
 
+        $scope.UpdateFormCompany = function () {
+            $http.post(
+                    "actualizar_vuelo.php", {
+
+                        'vuelo': $scope.IDvuelo,
+                        'origen': $scope.RutaVueloOrigen,
+                        'destino': $scope.RutaVueloDestino,
+                        'fecha': $scope.RutaFecha,
+                        'plazas_business': $scope.plazas_business,
+                        'plazas_optima': $scope.plazas_optima,
+                        'plazas_economy': $scope.plazas_economy,
+                        'precio_business': $scope.precio_business,
+                        'precio_optima': $scope.precio_optima,
+                        'precio_economy': $scope.precio_economy,
+                    }
+                )
+                .then(function (respuesta) {
+
+                    console.log(respuesta);
+                    $scope.vuelo = null;
+                    $scope.origen = null;
+                    $scope.destino = null;
+                    $scope.fecha = null;
+                    $scope.plazas_business = null;
+                    $scope.plazas_optima = null;
+                    $scope.plazas_economy = null;
+                    $scope.precio_business = null;
+                    $scope.precio_optima = null;
+                    $scope.precio_economy = null;
+                });
+        };
+
         /*  Seleccionar orden de la tabla */
         $scope.setOrderIDA = function (x) {
             $scope.selectedOrderIDA = x;
+
+        };
+        $scope.setOrderIntermedioIDA = function (x) {
+            $scope.selectedOrderIntermedioIDA = x;
+
+        };
+        $scope.setOrderDestinoIDA = function (x) {
+            $scope.selectedOrderIntermedioIDA = x;
 
         };
         $scope.setOrderVUELTA = function (x) {
@@ -164,6 +223,44 @@ angular.module("trabajo", ['ngRoute'])
             }
         };
 
+        $scope.seleccionIntermedioIDA = function (posicion) {
+            contadorIntermedioIDA++;
+            $scope.IntermedioIDA = false;
+            if (contadorIntermedioIDA % 2 != 0) {
+                $scope.elementoIntermedioIDA = posicion;
+                $scope.estadoDeshabilitarIntermedioIDA = true;
+                $scope.IntermedioIDA = true;
+                console.log(posicion);
+                $scope.CiudadIntermedia = posicion;
+
+            } else {
+                contadorIDA = 0;
+                $scope.elementoIntermedioIDA = {};
+                $scope.estadoDeshabilitarIntermedioIDA = false;
+                $scope.Intermedioida = false;
+                $scope.precioIntermedioIDA = 0;
+                $scope.CiudadIntermedia = '';
+
+            }
+        };
+
+        $scope.seleccionDestinoIDA = function (posicion) {
+            contadorDestinoIDA++;
+            $scope.DestinoIDA = false;
+            if (contadorDestinoIDA % 2 != 0) {
+                $scope.elementoDestinoIDA = posicion;
+                $scope.estadoDeshabilitarDestinoIDA = true;
+                $scope.DestinoIDA = true;
+
+            } else {
+                contadorDestinoIDA = 0;
+                $scope.elementoDestinoIDA = {};
+                $scope.estadoDeshabilitarDestinoIDA = false;
+                $scope.Destinoida = false;
+                $scope.precioDestinoIDA = 0;
+            }
+        };
+
         $scope.billetera = function (value) {
             return parseInt(value);
         }
@@ -190,6 +287,14 @@ angular.module("trabajo", ['ngRoute'])
             return $scope.elementoIDA;
         };
 
+        $scope.deshabilitarIntermedioIDA = function () {
+            return $scope.elementoIntermedioIDA;
+        };
+
+        $scope.deshabilitarDestinoIDA = function () {
+            return $scope.elementoDestinoIDA;
+        };
+
         $scope.deshabilitarVUELTA = function () {
             return $scope.elementoVUELTA;
         };
@@ -199,6 +304,13 @@ angular.module("trabajo", ['ngRoute'])
 
         $scope.EstablecerPrecioIDA = function (x) {
             $scope.precioIDA = x;
+        };
+        $scope.EstablecerPrecioIntermedioIDA = function (x) {
+            $scope.precioIntermedioIDA = x;
+        };
+        $scope.EstablecerPrecioDestinoIDA = function (x) {
+            console.log(x);
+            $scope.precioDestinoIDA = x;
         };
         $scope.EstablecerPrecioVUELTA = function (x) {
             $scope.precioVUELTA = x;
@@ -210,9 +322,13 @@ angular.module("trabajo", ['ngRoute'])
             if ($scope.elementoIDA.length != undefined) {
                 $scope.seleccionIDA($scope.elementoIDA);
             }
+            if ($scope.elementoIntermedioIDA.length != undefined) {
+                $scope.seleccionIntermedioIDA($scope.elementoIntermedioIDA);
+            }
             if ($scope.elementoVUELTA.length != undefined) {
                 $scope.seleccionVUELTA($scope.elementoVUELTA);
             }
+
         };
 
         $scope.setTipoIda = function (tipo) {
@@ -239,6 +355,15 @@ angular.module("trabajo", ['ngRoute'])
             return [];
         };
     })
+
+    .filter('removeSpaces', [function () {
+        return function (string) {
+            if (!angular.isString(string)) {
+                return string;
+            }
+            return string.replace(/[\s]/g, '');
+        };
+    }])
     /*  Filtra los nombres de Origen y Destino de tal manera que no se envien duplicados */
 
     .filter('unique', function () {
@@ -401,23 +526,3 @@ angular.module("trabajo", ['ngRoute'])
 
     });
 
-angular.module('Otro', ['ngRoute'])
-    .config(function ($routeProvider) {
-        $routeProvider.
-        when('/', {
-            controller: 'MainCtrl',
-            templateUrl: 'index.php'
-        }).
-        when('/prueba/:origen/:destino', {
-            controller: 'CountDownCtrl',
-            templateUrl: 'countdown.html'
-        }).
-        otherwise({
-            redirectTo: '/'
-        });
-    })
-    .controller('MainCtrl', function ($scope) {})
-    .controller('CountDownCtrl', function ($scope, $routeParams, $timeout) {
-        $scope.origen = $routeParams.origen;
-        $scope.destino = $routeParams.destino;
-    });

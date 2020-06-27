@@ -1,21 +1,15 @@
-
 <html ng-app="trabajo" lang="en">
 
 <head>
     <meta charset="UTF-8">
-
-
-
-
-
-<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
-<link href="css/all.css" rel="stylesheet">
-<link href="css/custom.css" rel="stylesheet">
-
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+    <link href="css/all.css" rel="stylesheet">
+    <link href="css/custom.css" rel="stylesheet">
     <title>Vuelos</title>
 </head>
 
 <body ng-controller="ctrol" style="background-image: url('images/plane.jpg');  background-size: cover;">
+
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="js/bootstrap.bundle.js"></script>
 <script src="js/all.js"></script>
@@ -167,10 +161,7 @@
                             <td class="text-center"> {{ item.precio_economy }} </td>
                             <td ng-repeat="items in comprar |filter:{'vuelo': item.vuelo}" style="text-align: center">{{ item.plazas_business }} /{{ items.npas_businnes }} / {{item.plazas_business - items.npas_businnes}} </td>
                             <td ng-repeat="items in comprar |filter:{'vuelo': item.vuelo}" style="text-align: center">{{ item.plazas_optima }} /{{ items.npas_optima }} / {{item.plazas_optima - items.npas_optima}} </td>
-                            <td ng-repeat="items in comprar |filter:{'vuelo': item.vuelo}" style="text-align: center">{{ item.plazas_economy }} /{{ items.npas_economy }} / {{item.plazas_economy - items.npas_economy}} </td>
-                            
-                            
-                            
+                            <td ng-repeat="items in comprar |filter:{'vuelo': item.vuelo}" style="text-align: center">{{ item.plazas_economy }} /{{ items.npas_economy }} / {{item.plazas_economy - items.npas_economy}} </td>                                                
                         </tr> 
                     </tbody>
                     
@@ -262,4 +253,3 @@
 </body>
 
 </html>
-
