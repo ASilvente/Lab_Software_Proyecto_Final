@@ -151,8 +151,8 @@ angular.module("trabajo", ['ngRoute'])
                     $scope.setNombre = null;
                     $scope.setApellidos = null;
                     $scope.setDNI = null;
-                    alert("Reserva cancelada con éxito.");
-                    window.location = ('index.php');
+                    //alert("Reserva cancelada con éxito.");
+                    //window.location = ('index.php');
                 });
         };
 

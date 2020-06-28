@@ -16,12 +16,13 @@ $apellidos = $data->apellidos;
 $dni = $data->dni;
 
 if (empty($nombre)){
-    $connect->query("DELETE FROM `pasajeros` WHERE `cod_reserva` = ".$reserva.")") or die(mysql_error());
-    $connect->query("DELETE FROM `compras` WHERE `cod_reserva` = ".$reserva.")") or die(mysql_error());
-}/* else {
-    $connect->query("DELETE FROM `pasajeros` WHERE `cod_reserva` = ".$reserva." AND `nombre` = ".$reserva." AND `apellidos` = ".$apellidos." AND `numero` = ".$dni.")") or die(mysql_error());
-    $connect->query("DELETE FROM `compras` WHERE `cod_reserva` = ".$reserva.")") or die(mysql_error());
-}*/
+    $connect->query("DELETE FROM `pasajeros` WHERE `cod_reserva` = '".$reserva."'") or die(mysql_error());
+    $connect->query("DELETE FROM `compras` WHERE `cod_reserva` = '".$reserva."'") or die(mysql_error());
+} else {
+    $connect->query("DELETE FROM `pasajeros` WHERE `cod_reserva` = '".$reserva."' AND `nombre` = '".$nombre."' AND `apellidos` = '".$apellidos."' AND `numero` = '".$dni."'") or die(mysql_error());
+    //$query = $connect->fecth();
+    //$connect->query("DELETE FROM `compras` WHERE `cod_reserva` = ".$reserva.")") or die(mysql_error());
+}
 
 $connect = null;
 ?>
