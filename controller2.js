@@ -34,6 +34,7 @@ angular.module("trabajo", ['ngRoute'])
             $scope.ida = false;
             $scope.showVuelta = true;
             $scope.showCliente = true;
+            $scope.showInputDataUser = true;
         };
         $http.get("php/fetch_data.php").then(function (response) {
 
@@ -74,26 +75,26 @@ angular.module("trabajo", ['ngRoute'])
                 elementoSalidaV = "";
                 tipoBilleteVuelta = "";
             }
-
+            var cod_reserva = makeid(5);
             pasajeros.push({'vuelo_ida': $scope.elementoIDA,
             'vuelo_vuelta': elementoVUELTA,
             'salida_ida': $scope.elementoSalida,
             'salida_vuelta': elementoSalidaV,
             'tipoBilleteIda': $scope.tipoBilleteIda,
-            'tipoBilleteVuelta': tipoBilleteVuelta});
+            'tipoBilleteVuelta': tipoBilleteVuelta,
+            'numero': cod_reserva});
 
-            console.log(pasajeros);
             $http.post(
 
                     "php/subir.php", pasajeros
 
                 )
                 .then(function (respuesta) {
-
                     console.log(respuesta);
                     $scope.nombre = null;
                     $scope.apellidos = null;
                     $scope.dni = null;
+                    alert("Su código de reserva es: "+cod_reserva+".");
                     window.location = ('index.php');
                 });
         };
@@ -128,6 +129,29 @@ angular.module("trabajo", ['ngRoute'])
                     $scope.precio_optima = null;
                     $scope.precio_economy = null;
                     window.location = ('company.html');
+                });
+        };
+
+        $scope.submitFormReserva = function () {
+            if(angular.equals($scope.setNombre, {})){
+                $scope.setNombre = "";
+                $scope.setApellidos = "";
+                $scope.setDNI = "";
+            }
+
+            $http.post(
+
+                "php/eliminarReserva.php", {'reserva': $scope.setReserva,
+                    'nombre': $scope.setNombre,
+                    'apellidos': $scope.setApellidos,
+                    'dni': $scope.setDNI}
+                )
+                .then(function (respuesta) {
+                    console.log(respuesta);
+                    $scope.setNombre = null;
+                    $scope.setApellidos = null;
+                    $scope.setDNI = null;
+                    window.location = ('index.php');
                 });
         };
 
@@ -221,6 +245,12 @@ angular.module("trabajo", ['ngRoute'])
 
         $scope.setTipoVuelta = function (tipo) {
             $scope.tipoBilleteVuelta = tipo;
+        };
+
+        $scope.resetDatosCancReserva = function () {
+            $scope.setDNI = '';
+            $scope.setNombre = '';
+            $scope.setApellidos = '';
         };
 
         $scope.init();
@@ -421,3 +451,13 @@ angular.module('Otro', ['ngRoute'])
         $scope.origen = $routeParams.origen;
         $scope.destino = $routeParams.destino;
     });
+
+function makeid(length) {
+    var result           = '';
+    var characters       = '0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+}
