@@ -20,7 +20,9 @@ if (empty($nombre)){
     $connect->query("DELETE FROM `compras` WHERE `cod_reserva` = '".$reserva."'") or die(mysql_error());
 } else {
     $connect->query("DELETE FROM `pasajeros` WHERE `cod_reserva` = '".$reserva."' AND `nombre` = '".$nombre."' AND `apellidos` = '".$apellidos."' AND `numero` = '".$dni."'") or die(mysql_error());
-    //$query = $connect->fecth();
+    $query = "SELECT npas_businnes,npas_optima,npas_economy FROM `compras` WHERE cod_reserva = '".$reserva."'";
+    $result = $query->fetch(PDO::FETCH_ASSOC);
+
     //$connect->query("DELETE FROM `compras` WHERE `cod_reserva` = ".$reserva.")") or die(mysql_error());
 }
 
