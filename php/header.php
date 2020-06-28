@@ -1,6 +1,6 @@
 <?php
     echo '<nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top"">
-            <a class="navbar-brand" href="#">Logo</a>
+            <a class="navbar-brand" href="index.php"><i class="fas fa-paper-plane" style="color: dodgerblue"></i></a>
                 <ul class="navbar-nav ml-auto">';
     if(isset($_COOKIE['usr_ck'])){
         echo    '<div>

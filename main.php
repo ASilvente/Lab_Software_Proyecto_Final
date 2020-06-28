@@ -11,7 +11,7 @@
                     <div class="modal-content" >
                         <!-- Modal Header -->
                         <div class="modal-header" >
-                            <h4 class="modal-title">¿Ya tienes cuenta?</h4>                            
+                            <h4 class="modal-title" style="color: dodgerblue"><i class="fas fa-user"></i> ¿Ya tienes cuenta?</h4>
                         </div>
                 
                         <!-- Modal body -->
@@ -22,7 +22,7 @@
                                         <label for = "rol">Email:</label>     
                                     </div>
                                     <div class="form-group col-md-6">                                       
-                                        <input type="text" name="log_correo" id="log_correo" autocomplete="off" required>
+                                        <input class="form-control" type="text" name="log_correo" id="log_correo" autocomplete="off" required>
                                     </div> 
                                 </div>                            
                                 <div class="row">
@@ -30,7 +30,7 @@
                                         <label for = "passwd">Contraseña: </label>
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <input type="password" name="passwd" id="passwd" autocomplete="off" required>
+                                        <input class="form-control" type="password" name="passwd" id="passwd" autocomplete="off" required>
                                     </div>  
                                 </div>                                 
                                 <div class="row" style="margin: auto;">
@@ -56,7 +56,7 @@
                     <div class="modal-content" >
                         <!-- Modal Header -->
                         <div class="modal-header" >
-                            <h4 class="modal-title">Nuevo usuario:</h4>                            
+                            <h4 class="modal-title" style="color: dodgerblue"><i class="fas fa-user-plus"></i> Nuevo usuario:</h4>
                         </div>
                 
                         <!-- Modal body -->
@@ -81,7 +81,7 @@
                                         <label for = "correo">Email: </label>
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <input type="text" name="correo" id="correo" autocomplete="off" required>
+                                        <input class="form-control" type="text" name="correo" id="correo" autocomplete="off" required>
                                     </div>                        
                                 </div>  
                                 <div class="row">
@@ -89,7 +89,7 @@
                                         <label for = "contra">Contraseña: </label>
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <input type="password" name="contra" id="contra" autocomplete="off" required>
+                                        <input class="form-control" type="password" name="contra" id="contra" autocomplete="off" required>
                                     </div>  
                                 </div>
                                 <div class="row">
@@ -97,7 +97,7 @@
                                         <label for = "nombre">Nombre: </label>
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <input type="text" name="nombre" id="nombre" autocomplete="off" required>
+                                        <input class="form-control" type="text" name="nombre" id="nombre" autocomplete="off" required>
                                     </div>  
                                 </div>
                                 <div class="row" ng-show="showCliente">
@@ -105,7 +105,7 @@
                                         <label for = "apellidos">Apellidos: </label>
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <input type="text" name="apellidos" id="apellidos" autocomplete="off" >
+                                        <input class="form-control" type="text" name="apellidos" id="apellidos" autocomplete="off" >
                                     </div>  
                                 </div>  
                                 <div class="row" style="margin: auto;">
