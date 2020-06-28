@@ -155,9 +155,9 @@
                         <td style="padding-top: 5px; padding-bottom: 0px;" ng-if="BuscarVUELTA">
                             <div ng-if="BuscarVUELTA">
                                 <select class="form-control" ng-model="PrecioVUELTA" ng-init="null" ng-change="EstablecerPrecioVUELTA(PrecioVUELTA)">
-                                    <option value="{{item.precio_business}}" ng-if="item.plazas_business >= nBilletes" ng-click="setTipoVuelta('Business')">Business</option>
-                                    <option value="{{item.precio_optima}}" ng-if="item.plazas_optima >= nBilletes" ng-click="setTipoVuelta('Optima')">Optima</option>
-                                    <option value="{{item.precio_economy}}" ng-if="item.plazas_economy >= nBilletes" ng-click="setTipoVuelta('Economy')">Economy</option>
+                                    <option value="{{item.precio_business}}" ng-if="item.plazas_business >= nBilletes" ng-click="setTipoVuelta('Business')">Business ({{item.plazas_business}})</option>
+                                    <option value="{{item.precio_optima}}" ng-if="item.plazas_optima >= nBilletes" ng-click="setTipoVuelta('Optima')">Optima ({{item.plazas_optima}})</option>
+                                    <option value="{{item.precio_economy}}" ng-if="item.plazas_economy >= nBilletes" ng-click="setTipoVuelta('Economy')">Economy ({{item.plazas_economy}})</option>
                                     <option value="{{}}" selected disabled hidden>Introduce la clase</option>
 
                                 </select>
