@@ -1,4 +1,3 @@
-Holi jeje
 <?php
     try{
         $correo = htmlentities($_POST['log_correo']);
@@ -29,7 +28,7 @@ Holi jeje
                 echo $_COOKIE['usr_ck'];
                 header("location: ../index.php");
             }elseif ($rol_usuario ==="aerolinea"){
-                echo "Hola aeroliena";
+                echo "Hola aerolinea";
                 setcookie("aero_ck", $correo, time()+86400, ';path=/');
                 echo $_COOKIE['aero_ck'];
                 //header("location: ../index.php");
