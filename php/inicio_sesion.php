@@ -36,6 +36,8 @@
             }else{
                 echo "Ninguna de las dos";
             }
+        }else{
+            header("location: ../index.php");
         }
     } catch(Exception $e){
         die("Error " . $e->getMessage() );
