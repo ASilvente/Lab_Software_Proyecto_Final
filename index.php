@@ -8,6 +8,9 @@
     <link href="css/all.css" rel="stylesheet">
     <link href="css/custom.css" rel="stylesheet">
 
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+
     <title>Vuelos</title>
 </head>
 
@@ -23,6 +26,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
 <script src="controller2.js"></script>
 <script src="js/anime.js"></script>
+
+
+
 
 
 </body>

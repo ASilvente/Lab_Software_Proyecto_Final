@@ -20,21 +20,20 @@
 		$resultado = $connect->prepare($sql);
 		$resultado->execute(array(":user"=>$correo_usuario));
 		if ($resultado->rowCount() > 0){
-			echo "Baia baia hubo caquita";
+			echo "Ya hay un usuario registrado con ese correo";
 		} else {
             $sql_2="INSERT INTO usuarios (correo, passwd, nombre, apellidos, rol) 
 			VALUES (:usu, :pass, :nombre, :apellidos, :rol_usuario)";
             $resultado=$connect->prepare($sql_2);
             $resultado->execute(array(":usu"=>$correo_usuario, ":pass"=>$pass_cifrado, ":nombre"=>$nombre, ":apellidos"=>$apellidos, ":rol_usuario"=>$tipo_usuario));	
-            echo $tipo_usuario;	
-            echo "Baia baia lo conseguiste";
+            echo $tipo_usuario;	            
         }
 
     } catch(EXception $e){
         die ("Error" . $e -> getMessage() . $e -> getLine());
     } finally{
         $connect = null;
-        header("location: ../index.html");
+        header("location: ../index.php");
     }
 
 

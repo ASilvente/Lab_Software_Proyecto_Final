@@ -11,7 +11,7 @@
                     <div class="modal-content" >
                         <!-- Modal Header -->
                         <div class="modal-header" >
-                            <h4 class="modal-title">¿Ya tienes cuenta?</h4>                            
+                            <h4 class="modal-title" style="color: dodgerblue"><i class="fas fa-user"></i> ¿Ya tienes cuenta?</h4>
                         </div>
                 
                         <!-- Modal body -->
@@ -22,7 +22,7 @@
                                         <label for = "rol">Email:</label>     
                                     </div>
                                     <div class="form-group col-md-6">                                       
-                                        <input type="text" name="log_correo" id="log_correo" autocomplete="off" required>
+                                        <input class="form-control" type="text" name="log_correo" id="log_correo" autocomplete="off" required>
                                     </div> 
                                 </div>                            
                                 <div class="row">
@@ -30,7 +30,7 @@
                                         <label for = "passwd">Contraseña: </label>
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <input type="password" name="passwd" id="passwd" autocomplete="off" required>
+                                        <input class="form-control" type="password" name="passwd" id="passwd" autocomplete="off" required>
                                     </div>  
                                 </div>                                 
                                 <div class="row" style="margin: auto;">
@@ -56,7 +56,7 @@
                     <div class="modal-content" >
                         <!-- Modal Header -->
                         <div class="modal-header" >
-                            <h4 class="modal-title">Nuevo usuario:</h4>                            
+                            <h4 class="modal-title" style="color: dodgerblue"><i class="fas fa-user-plus"></i> Nuevo usuario:</h4>
                         </div>
                 
                         <!-- Modal body -->
@@ -81,7 +81,7 @@
                                         <label for = "correo">Email: </label>
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <input type="text" name="correo" id="correo" autocomplete="off" required>
+                                        <input class="form-control" type="text" name="correo" id="correo" autocomplete="off" required>
                                     </div>                        
                                 </div>  
                                 <div class="row">
@@ -89,7 +89,7 @@
                                         <label for = "contra">Contraseña: </label>
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <input type="password" name="contra" id="contra" autocomplete="off" required>
+                                        <input class="form-control" type="password" name="contra" id="contra" autocomplete="off" required>
                                     </div>  
                                 </div>
                                 <div class="row">
@@ -97,7 +97,7 @@
                                         <label for = "nombre">Nombre: </label>
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <input type="text" name="nombre" id="nombre" autocomplete="off" required>
+                                        <input class="form-control" type="text" name="nombre" id="nombre" autocomplete="off" required>
                                     </div>  
                                 </div>
                                 <div class="row" ng-show="showCliente">
@@ -105,7 +105,7 @@
                                         <label for = "apellidos">Apellidos: </label>
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <input type="text" name="apellidos" id="apellidos" autocomplete="off" >
+                                        <input class="form-control" type="text" name="apellidos" id="apellidos" autocomplete="off" >
                                     </div>  
                                 </div>  
                                 <div class="row" style="margin: auto;">
@@ -124,6 +124,64 @@
                                 <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                             </div>                            
                         </div>                
+                    </div>
+                </div>
+            </div>
+            <!-- MODAL CANCELAR RESERVA -->
+            <div class="modal fade" id="cancelarReserva" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" style="color: dodgerblue"><i class="fas fa-receipt mr-1"></i> Datos de su reserva</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true" ng-click="">&times;</span>
+                            </button>
+                        </div>
+                        <form name="userForm" ng-submit="submitFormReserva()">
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-2"></div>
+                                    <div class="col-md-4 form-inline">
+                                        <input class="form-check-input" type="radio" ng-model="showInputDataUser" ng-value="true" checked>
+                                        <label class="form-check-label">Mi billete</label>
+                                    </div>
+                                    <div class="col-md-5 form-inline">
+                                        <input class="form-check-input" type="radio" ng-change="resetDatosCancReserva()" ng-model="showInputDataUser" ng-value="false" checked>
+                                        <label class="form-check-label">Todos los billetes</label>
+                                    </div>
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-12 mt-2 form-inline">
+                                        <label class="form-check-label"><i class="far fa-file-alt mr-1"></i> Código de reserva: </label>
+                                        <input class="form-control ml-1" type="number" ng-model="setReserva" maxlength="6" style="-moz-appearance: textfield;" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-12 mt-3" ng-show="showInputDataUser">
+                                                <label class="form-check-label"><i class="fas fa-signature"></i> Nombre: </label>
+                                                <input class="form-control ml-1" type="text" ng-model="setNombre">
+                                            </div>
+                                            <div class="col-md-12 mt-1" ng-show="showInputDataUser">
+                                                <label class="form-check-label"><i class="fas fa-file-signature"></i> Apellidos: </label>
+                                                <input class="form-control ml-1" type="text" ng-model="setApellidos">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-12 mt-3 justify-content-center" ng-show="showInputDataUser">
+                                                <label class="form-check-label"><i class="fas fa-id-card"></i> DNI (sin letra): </label>
+                                                <input class="form-control ml-1" type="number" ng-model="setDNI" style="-moz-appearance: textfield;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal" ng-click="">Close</button>
+                                <button type="submit" class="btn btn-primary"><i class="fas fa-plane-slash"></i> Cancelar reserva</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -153,12 +211,12 @@
                         </div>
                         <div class="row mb-1">
                             <div class="col-md-6 form-inline">
-                                <div class="form-check col-md-6">
-                                    <input class="form-check-input" type="radio"  ng-model="showVuelta" ng-value="true" checked>
+                                <div class="form-check col-md-7">
+                                    <input class="form-check-input" type="radio" ng-model="showVuelta" ng-value="true" checked>
                                     <label class="form-check-label">Ida y vuelta</label>
                                 </div>
-                                <div class="form-check col-md-6">
-                                    <input class="form-check-input" type="radio"  ng-model="showVuelta" ng-value="false">
+                                <div class="form-check col-md-5">
+                                    <input class="form-check-input" type="radio" ng-change="fechaCheckOut = ''" ng-model="showVuelta" ng-value="false">
                                     <label class="form-check-label">Sólo ida</label>
                                 </div>
                             </div>

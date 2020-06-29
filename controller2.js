@@ -5,22 +5,30 @@ angular.module("trabajo", ['ngRoute'])
         var contadorIDA = 0;
         $scope.elementoIDA = {};
         $scope.elementoSalida = {};
+        $scope.elementoIntermedioSalida = {};
+        $scope.elementoIntermedioSalidaV = {};
         $scope.elementoSalidaV = {};
         $scope.deshabilitarIDA = false;
 
         var contadorIntermedioIDA = 0;
         $scope.elementoIntermedioIDA = {};
         $scope.deshabilitarIntermedioIDA = false;
-        
+        var contadorIntermedioVUELTA = 0;
+        $scope.elementoIntermedioVUELTA = {};
+        $scope.deshabilitarIntermedioVUELTA = false;
+
         var contadorDestinoIDA = 0;
         $scope.elementoDestinoIDA = {};
         $scope.deshabilitarDestinoIDA = false;
+        var contadorDestinoVUELTA = 0;
+
+        $scope.elementoDestinoVUELTA = {};
+        $scope.deshabilitarDestinoVUELTA = false;
 
         var contadorVUELTA = 0;
         $scope.elementoVUELTA = {};
         $scope.nombre = null;
         $scope.apellidos = null;
-
         $scope.dni = null;
         $scope.nameForm = null;
 
@@ -32,39 +40,39 @@ angular.module("trabajo", ['ngRoute'])
         $scope.deshabilitarVUELTA = false;
         $scope.init = function () {
             $scope.data = [];
-            $scope.comprar = [];
             $scope.error = "";
             $scope.selectedOrderIDA = 'vuelo';
+            $scope.selectedOrderVUELTA = 'vuelo';
             $scope.selectedOrderIntermedioIDA = 'vuelo';
             $scope.selectedOrderDestinoIDA = 'vuelo';
-
-            $scope.selectedOrderVUELTA = 'vuelo';
+            $scope.selectedOrderConsulta = 'salida';
             $scope.values = "origen";
             $scope.precioIDA = 0;
             $scope.precioIntermedioIDA = 0;
             $scope.precioDestinoIDA = 0;
-
+            $scope.precioDestinoVUELTA = 0;
             $scope.precioVUELTA = 0;
-
             $scope.vuelta = false;
-
             $scope.ida = false;
             $scope.CiudadIntermedia = '';
+            $scope.CiudadIntermedia2 = '';
             $scope.Intermedioida = false;
             $scope.DestinoIDA = false;
-
             $scope.showVuelta = true;
             $scope.showCliente = true;
-
-            $scope.pageSize = 50;
-            $scope.currentPage = 0;
+            $scope.showInputDataUser = true;
         };
         $http.get("php/fetch_data.php").then(function (response) {
 
+            $scope.pageSize = 50;
+            $scope.currentPage = 0;
             $scope.data = response.data; //para php
 
         });
+        $http.get("php/comprar_datos.php").then(function (response) {
 
+            $scope.comprar = response.data; //para php
+        });
 
 
         //paginacion
@@ -83,43 +91,73 @@ angular.module("trabajo", ['ngRoute'])
 
         $scope.submitForm = function () {
             var billetes = document.getElementById('nBilletes').value;
-            for (var i = 0; i < billetes; i++){
-                pasajeros.push({'nombre': document.getElementById('nombre_'+i).value,
-                    'apellidos': document.getElementById('apellidos_'+i).value,
-                    'dni': document.getElementById('dni_'+i).value});
+            for (var i = 0; i < billetes; i++) {
+                pasajeros.push({
+                    'nombre': document.getElementById('nombre_' + i).value,
+                    'apellidos': document.getElementById('apellidos_' + i).value,
+                    'dni': document.getElementById('dni_' + i).value
+                });
             }
-            var elementoVUELTA =  $scope.elementoVUELTA;
-            var elementoSalidaV =  $scope.elementoSalidaV;
+            var elementoVUELTA = $scope.elementoVUELTA;
+            var elementoSalidaV = $scope.elementoSalidaV;
             var tipoBilleteVuelta = $scope.tipoBilleteVuelta;
-            if(angular.equals($scope.elementoVUELTA, {})){
+            if (angular.equals($scope.elementoVUELTA, {})) {
                 elementoVUELTA = "";
                 elementoSalidaV = "";
                 tipoBilleteVuelta = "";
             }
+            var elementoDestinoIDA = $scope.elementoDestinoIDA;
+            var elementoIntermedioSalida = $scope.elementoIntermedioSalida;
+            var tipoBillete_IntermedioIda = $scope.tipoBillete_IntermedioIda;
+            if (angular.equals($scope.elementoDestinoIDA, {})) {
+                elementoDestinoIDA = "";
+                elementoIntermedioSalida = "";
+                tipoBillete_IntermedioIda = "";
+            }
 
-            pasajeros.push({'vuelo_ida': $scope.elementoIDA,
-            'vuelo_vuelta': elementoVUELTA,
-            'salida_ida': $scope.elementoSalida,
-            'salida_vuelta': elementoSalidaV,
-            'tipoBilleteIda': $scope.tipoBilleteIda,
-            'tipoBilleteVuelta': tipoBilleteVuelta});
+            var elementoDestinoVUELTA = $scope.elementoDestinoVUELTA;
+            var elementoIntermedioSalidaV = $scope.elementoIntermedioSalidaV;
+            var tipoBillete_IntermedioVuelta = $scope.tipoBillete_IntermedioVuelta;
+            if (angular.equals($scope.elementoDestinoVUELTA, {})) {
+                elementoDestinoVUELTA = "";
+                elementoIntermedioSalidaV = "";
+                tipoBillete_IntermedioVuelta = "";
+            }
+            var cod_reserva = makeid(5);
+            pasajeros.push({
+                'vuelo_ida': $scope.elementoIDA,
+                'vuelo_vuelta': elementoVUELTA,
+                'salida_ida': $scope.elementoSalida,
+                'salida_vuelta': elementoSalidaV,
+                'tipoBilleteIda': $scope.tipoBilleteIda,
+                'tipoBilleteVuelta': tipoBilleteVuelta,
+                'vuelo_Intermedio_ida': elementoDestinoIDA,
+                'vuelo_Intermedio_vuelta': elementoDestinoVUELTA,
+                'salida_Intermedio_ida': elementoIntermedioSalida,
+                'salida_Intermedio_vuelta': elementoIntermedioSalidaV,
+                'tipoBilleteIntermedioIda': tipoBillete_IntermedioIda,
+                'tipoBilleteIntermedioVuelta': tipoBillete_IntermedioVuelta,
+                'numero': cod_reserva
+            });
 
-            console.log(pasajeros);
             $http.post(
+
                     "php/subir.php", pasajeros
+
                 )
                 .then(function (respuesta) {
                     console.log(respuesta);
                     $scope.nombre = null;
                     $scope.apellidos = null;
                     $scope.dni = null;
+                    alert("Su código de reserva es: " + cod_reserva + ".");
                     window.location = ('index.php');
                 });
         };
 
         $scope.submitFormCompany = function () {
             $http.post(
-                    "insertar_vuelo.php", {
+                    "php/insertar_vuelo.php", {
 
                         'origen': $scope.searchOrigin,
                         'destino': $scope.searchDestiny,
@@ -146,13 +184,37 @@ angular.module("trabajo", ['ngRoute'])
                     $scope.precio_business = null;
                     $scope.precio_optima = null;
                     $scope.precio_economy = null;
-                    window.location = ('company.html');
+                    window.location = ('company.php');
                 });
         };
 
+        $scope.submitFormReserva = function () {
+            if (angular.equals($scope.setNombre, {})) {
+                $scope.setNombre = "";
+                $scope.setApellidos = "";
+                $scope.setDNI = "";
+            }
+
+            $http.post(
+
+                    "php/eliminarReserva.php", {
+                        'reserva': $scope.setReserva,
+                        'nombre': $scope.setNombre,
+                        'apellidos': $scope.setApellidos,
+                        'dni': $scope.setDNI
+                    }
+                )
+                .then(function (respuesta) {
+                    console.log(respuesta);
+                    $scope.setNombre = null;
+                    $scope.setApellidos = null;
+                    $scope.setDNI = null;
+                    window.location = ('index.php');
+                });
+        };
         $scope.UpdateFormCompany = function () {
             $http.post(
-                    "actualizar_vuelo.php", {
+                    "php/actualizar_vuelo.php", {
 
                         'vuelo': $scope.IDvuelo,
                         'origen': $scope.RutaVueloOrigen,
@@ -179,20 +241,13 @@ angular.module("trabajo", ['ngRoute'])
                     $scope.precio_business = null;
                     $scope.precio_optima = null;
                     $scope.precio_economy = null;
+                    window.location = ('company.php');
+
                 });
         };
-
         /*  Seleccionar orden de la tabla */
         $scope.setOrderIDA = function (x) {
             $scope.selectedOrderIDA = x;
-
-        };
-        $scope.setOrderIntermedioIDA = function (x) {
-            $scope.selectedOrderIntermedioIDA = x;
-
-        };
-        $scope.setOrderDestinoIDA = function (x) {
-            $scope.selectedOrderIntermedioIDA = x;
 
         };
         $scope.setOrderVUELTA = function (x) {
@@ -222,7 +277,7 @@ angular.module("trabajo", ['ngRoute'])
                 $scope.precioIDA = 0;
             }
         };
-
+        /// para elegir la escala en la ida
         $scope.seleccionIntermedioIDA = function (posicion) {
             contadorIntermedioIDA++;
             $scope.IntermedioIDA = false;
@@ -230,37 +285,96 @@ angular.module("trabajo", ['ngRoute'])
                 $scope.elementoIntermedioIDA = posicion;
                 $scope.estadoDeshabilitarIntermedioIDA = true;
                 $scope.IntermedioIDA = true;
-                console.log(posicion);
                 $scope.CiudadIntermedia = posicion;
 
             } else {
-                contadorIDA = 0;
+                contadorIntermedioIDA = 0;
                 $scope.elementoIntermedioIDA = {};
                 $scope.estadoDeshabilitarIntermedioIDA = false;
-                $scope.Intermedioida = false;
+                $scope.IntermedioIDA = false;
                 $scope.precioIntermedioIDA = 0;
                 $scope.CiudadIntermedia = '';
 
             }
         };
+        /// para elegir la escala en la vuelta    
+        $scope.seleccionIntermedioVUELTA = function (posicion) {
+            contadorIntermedioVUELTA++;
+            $scope.IntermedioVUELTA = false;
+            if (contadorIntermedioVUELTA % 2 != 0) {
+                $scope.elementoIntermedioVUELTA = posicion;
+                $scope.estadoDeshabilitarIntermedioVUELTA = true;
+                $scope.IntermedioVUELTA = true;
+                $scope.CiudadIntermedia2 = posicion;
 
-        $scope.seleccionDestinoIDA = function (posicion) {
+            } else {
+                contadorIntermedioIDA = 0;
+                $scope.elementoIntermedioVUELTA = {};
+                $scope.estadoDeshabilitarIntermedioVUELTA = false;
+                $scope.Intermediovuelta = false;
+                $scope.precioIntermedioVUELTA = 0;
+                $scope.CiudadIntermedia2 = '';
+
+            }
+        };
+
+        $scope.seleccionDestinoIDA = function (posicion, salida) {
             contadorDestinoIDA++;
             $scope.DestinoIDA = false;
             if (contadorDestinoIDA % 2 != 0) {
                 $scope.elementoDestinoIDA = posicion;
                 $scope.estadoDeshabilitarDestinoIDA = true;
                 $scope.DestinoIDA = true;
+                $scope.elementoIntermedioSalida = salida;
 
             } else {
                 contadorDestinoIDA = 0;
                 $scope.elementoDestinoIDA = {};
                 $scope.estadoDeshabilitarDestinoIDA = false;
-                $scope.Destinoida = false;
+                $scope.DestinoIDA = false;
                 $scope.precioDestinoIDA = 0;
+                $scope.elementoIntermedioSalida = {};
+
+            }
+        };
+        $scope.seleccionDestinoVUELTA = function (posicion, salida) {
+            contadorDestinoVUELTA++;
+            $scope.DestinoVUELTA = false;
+            if (contadorDestinoVUELTA % 2 != 0) {
+                $scope.elementoDestinoVUELTA = posicion;
+                $scope.estadoDeshabilitarDestinoVUELTA = true;
+                $scope.DestinoVUELTA = true;
+                $scope.elementoIntermedioSalidaV = salida;
+
+            } else {
+                contadorDestinoVUELTA = 0;
+                $scope.elementoDestinoVUELTA = {};
+                $scope.estadoDeshabilitarDestinoVUELTA = false;
+                $scope.DestinoVUELTA = false;
+                $scope.precioDestinoVUELTA = 0;
+                $scope.elementoIntermedioSalidaV = {};
+
             }
         };
 
+
+        $scope.seleccionVUELTA = function (posicion, salida) {
+            contadorVUELTA++;
+            $scope.vuelta = false;
+            if (contadorVUELTA % 2 != 0) {
+                $scope.elementoVUELTA = posicion;
+                $scope.elementoSalidaV = salida;
+                $scope.estadoDeshabilitarVUELTA = true;
+                $scope.vuelta = true;
+            } else {
+                contadorVUELTA = 0;
+                $scope.elementoVUELTA = {};
+                $scope.elementoSalidaV = {};
+                $scope.estadoDeshabilitarVUELTA = false;
+                $scope.vuelta = false;
+                $scope.precioVUELTA = 0;
+            }
+        };
         $scope.billetera = function (value) {
             return parseInt(value);
         }
@@ -286,13 +400,18 @@ angular.module("trabajo", ['ngRoute'])
         $scope.deshabilitarIDA = function () {
             return $scope.elementoIDA;
         };
-
         $scope.deshabilitarIntermedioIDA = function () {
             return $scope.elementoIntermedioIDA;
+        };
+        $scope.deshabilitarIntermedioVUELTA = function () {
+            return $scope.elementoIntermedioVUELTA;
         };
 
         $scope.deshabilitarDestinoIDA = function () {
             return $scope.elementoDestinoIDA;
+        };
+        $scope.deshabilitarDestinoVUELTA = function () {
+            return $scope.elementoDestinoVUELTA;
         };
 
         $scope.deshabilitarVUELTA = function () {
@@ -309,8 +428,10 @@ angular.module("trabajo", ['ngRoute'])
             $scope.precioIntermedioIDA = x;
         };
         $scope.EstablecerPrecioDestinoIDA = function (x) {
-            console.log(x);
             $scope.precioDestinoIDA = x;
+        };
+        $scope.EstablecerPrecioDestinoVUELTA = function (x) {
+            $scope.precioDestinoVUELTA = x;
         };
         $scope.EstablecerPrecioVUELTA = function (x) {
             $scope.precioVUELTA = x;
@@ -325,18 +446,32 @@ angular.module("trabajo", ['ngRoute'])
             if ($scope.elementoIntermedioIDA.length != undefined) {
                 $scope.seleccionIntermedioIDA($scope.elementoIntermedioIDA);
             }
+            if ($scope.elementoIntermedioVUELTA.length != undefined) {
+                $scope.seleccionIntermedioVUELTA($scope.elementoIntermedioVUELTA);
+            }
             if ($scope.elementoVUELTA.length != undefined) {
                 $scope.seleccionVUELTA($scope.elementoVUELTA);
             }
-
         };
 
         $scope.setTipoIda = function (tipo) {
             $scope.tipoBilleteIda = tipo;
         };
+        $scope.setTipoIntermedioIda = function (tipo) {
+            $scope.tipoBillete_IntermedioIda = tipo;
+        };        
+        $scope.setTipoIntermedioVuelta = function (tipo) {
+            $scope.tipoBillete_IntermedioVuelta = tipo;
+        };
 
         $scope.setTipoVuelta = function (tipo) {
             $scope.tipoBilleteVuelta = tipo;
+        };
+
+        $scope.resetDatosCancReserva = function () {
+            $scope.setDNI = '';
+            $scope.setNombre = '';
+            $scope.setApellidos = '';
         };
 
         $scope.init();
@@ -355,7 +490,6 @@ angular.module("trabajo", ['ngRoute'])
             return [];
         };
     })
-
     .filter('removeSpaces', [function () {
         return function (string) {
             if (!angular.isString(string)) {
@@ -391,19 +525,18 @@ angular.module("trabajo", ['ngRoute'])
             var seqlen = 0;
             var anterior = 0;
             strData += '';
-
             while (i < strData.length) {
                 c1 = strData.charCodeAt(i) & 0xFF;
                 seqlen = 0;
-                if ((c1 == 63 && anterior == 73)) {
+                if ((c1 == 253 && anterior == 73)) {
                     c1 = 0xC1;
                     seqlen = 1;
 
-                } else if ((c1 == 63 && anterior == 79)) {
+                } else if ((c1 == 253 && anterior == 79)) {
                     c1 = 0xD1;
                     seqlen = 1;
 
-                } else if ((c1 == 63 && anterior == 85)) {
+                } else if ((c1 == 253 && anterior == 85)) {
                     c1 = 0xD1;
                     seqlen = 1;
 
@@ -449,15 +582,15 @@ angular.module("trabajo", ['ngRoute'])
                 c1 = strData.charCodeAt(i) & 0xFF;
                 seqlen = 0;
                 if ((c1 == 0xC1 && anterior == 73)) {
-                    c1 = 63;
+                    c1 = 253;
                     seqlen = 1;
 
                 } else if ((c1 == 0xD1 && anterior == 79)) {
-                    c1 = 63;
+                    c1 = 253;
                     seqlen = 1;
 
                 } else if ((c1 == 209 && anterior == 85)) {
-                    c1 = 63;
+                    c1 = 253;
                     seqlen = 1;
 
                 } else if (c1 <= 0xBF) {
@@ -526,3 +659,33 @@ angular.module("trabajo", ['ngRoute'])
 
     });
 
+angular.module('Otro', ['ngRoute'])
+    .config(function ($routeProvider) {
+        $routeProvider.
+        when('/', {
+            controller: 'MainCtrl',
+            templateUrl: 'index.php'
+        }).
+        when('/prueba/:origen/:destino', {
+            controller: 'CountDownCtrl',
+            templateUrl: 'countdown.html'
+        }).
+        otherwise({
+            redirectTo: '/'
+        });
+    })
+    .controller('MainCtrl', function ($scope) {})
+    .controller('CountDownCtrl', function ($scope, $routeParams, $timeout) {
+        $scope.origen = $routeParams.origen;
+        $scope.destino = $routeParams.destino;
+    });
+
+function makeid(length) {
+    var result = '';
+    var characters = '0123456789';
+    var charactersLength = characters.length;
+    for (var i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+}
